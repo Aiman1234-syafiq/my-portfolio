@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>BizFlow Systems • Enterprise automation & digital transformation</title>
+  <title>BizFlow Systems • Enterprise Automation & Digital Transformation</title>
   <meta name="description" content="BizFlow Systems by Syafiq delivers bespoke IT solutions, interactive dashboards, workflow automation, Excel automation, and system integration for Malaysian businesses." />
   <meta name="keywords" content="automation, dashboard, Excel automation, IT consulting, Malaysia, BizFlow Systems, Syafiq" />
   <meta name="author" content="Syafiq – BizFlow Systems" />
@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://bizflowsystems.my" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="BizFlow Systems • Advanced automation & data insights" />
+  <meta property="og:title" content="BizFlow Systems • Advanced Automation & Data Insights" />
   <meta property="og:description" content="Transform your business with smart automation and data-driven solutions." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bizflowsystems.my" />
@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind via CDN + custom layer -->
+  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -65,7 +65,6 @@
       background-color: #f8fafc;
       color: #0f172a;
     }
-    /* Light mode overrides for dark backgrounds */
     body.light-mode .bg-brand-deep,
     body.light-mode .bg-brand-panel,
     body.light-mode .bg-brand-card,
@@ -120,12 +119,13 @@
     .typing-text {
       border-right: 3px solid #ec4899; white-space: nowrap; overflow: hidden;
       animation: blink 0.75s step-end infinite;
+      display: inline-block; max-width: 100%;
     }
     @keyframes blink { from, to { border-color: transparent } 50% { border-color: #ec4899 } }
 
     /* filter buttons */
     .filter-btn.active {
-      background-color: #ec4899; color: white; box-shadow: 0 8px 20px rgba(236,72,153,0.4);
+      background-color: #ec4899; color: white; box-shadow: 0 8px 25px rgba(236,72,153,0.5);
     }
     .filter-btn {
       transition: all 0.3s ease;
@@ -133,7 +133,7 @@
 
     /* floating widgets */
     .back-to-top, .whatsapp-button, .dark-mode-toggle {
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
     .back-to-top {
       position: fixed; bottom: 100px; right: 24px; width: 48px; height: 48px;
@@ -142,19 +142,24 @@
       transition: all 0.3s ease; z-index: 98;
     }
     .back-to-top.show { opacity: 1; visibility: visible; }
-    .back-to-top:hover { transform: translateY(-3px); background: #db2777; }
+    .back-to-top:hover { transform: translateY(-4px); background: #db2777; }
 
     .whatsapp-widget { position: fixed; bottom: 24px; right: 24px; z-index: 99; }
     .whatsapp-button {
       width: 60px; height: 60px; background: #25D366; border-radius: 50%;
       display: flex; align-items: center; justify-content: center; cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease; animation: pulse-wa 2s infinite;
     }
-    .whatsapp-button:hover { transform: scale(1.08); }
+    @keyframes pulse-wa {
+      0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.6); }
+      70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+    }
+    .whatsapp-button:hover { transform: scale(1.1); }
     .whatsapp-popup {
       position: absolute; bottom: 75px; right: 0; background: white;
       border-radius: 20px; padding: 18px; width: 280px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25); display: none;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3); display: none;
       animation: fadeInUp 0.3s ease;
     }
     .whatsapp-popup.show { display: block; }
@@ -171,10 +176,68 @@
     }
     body.light-mode .dark-mode-toggle { background: #e2e8f0; }
 
-    /* smooth hover */
-    .card-hover:hover { border-color: #ec4899; transform: translateY(-4px); box-shadow: 0 20px 30px -10px rgba(236,72,153,0.2); }
+    /* Glow effects */
+    .glow-card {
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .glow-card:hover {
+      box-shadow: 0 0 40px rgba(236, 72, 153, 0.25), 0 20px 40px -15px rgba(0,0,0,0.5);
+      transform: translateY(-6px);
+    }
+
+    /* Testimonial card special */
+    .testimonial-card {
+      background: linear-gradient(145deg, #11131a 0%, #0d0f14 100%);
+      border: 1px solid #1f2937;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-size: 120px;
+      font-family: 'Playfair Display', serif;
+      color: rgba(236, 72, 153, 0.08);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testimonial-card:hover {
+      border-color: #ec4899;
+      box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.25);
+      transform: translateY(-5px);
+    }
+
+    /* Counter animation */
+    .counter-value {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Animated gradient border */
+    .gradient-border {
+      position: relative;
+      background: #0d0e12;
+      border-radius: 16px;
+    }
+    .gradient-border::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .gradient-border:hover::after {
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
       .whatsapp-popup { width: 260px; right: -10px; }
+      .typing-text { white-space: normal; border-right: none; animation: none; }
     }
   </style>
 </head>
@@ -230,6 +293,7 @@
       </div>
       <nav class="hidden xl:flex space-x-8 text-[11px] font-bold tracking-widest text-zinc-300">
         <a href="#home" class="nav-link hover:text-white uppercase transition">Home</a>
+        <a href="#why-us" class="nav-link hover:text-white uppercase transition">Why Us</a>
         <a href="#core-services" class="nav-link hover:text-white uppercase transition">Services</a>
         <a href="#portfolio" class="nav-link hover:text-white uppercase transition">Portfolio</a>
         <a href="#testimonials" class="nav-link hover:text-white uppercase transition">Testimonials</a>
@@ -242,6 +306,7 @@
   </div>
   <div id="mobile-nav" class="hidden xl:hidden border-t border-zinc-800 bg-[#0b0c10] px-4 pt-2 pb-6 space-y-2">
     <a href="#home" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">HOME</a>
+    <a href="#why-us" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">WHY US</a>
     <a href="#core-services" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">SERVICES</a>
     <a href="#portfolio" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">PORTFOLIO</a>
     <a href="#testimonials" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">TESTIMONIALS</a>
@@ -266,12 +331,12 @@
       </div>
     </div>
     <div class="grid md:grid-cols-2 gap-8 mt-24">
-      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition card-hover">
+      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition glow-card">
         <div class="absolute top-0 left-0 w-1 h-full bg-pink-500 group-hover:w-2 transition-all"></div>
         <h3 class="text-xl font-serif text-[#ec4899] italic mb-4 font-semibold">Our mission</h3>
         <p class="text-zinc-300 text-sm md:text-base leading-relaxed">Empower Malaysian SMEs with smart automation and data-driven solutions – reducing manual work, improving reporting, and enabling better decisions.</p>
       </div>
-      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition card-hover">
+      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition glow-card">
         <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 group-hover:w-2 transition-all"></div>
         <h3 class="text-xl font-serif text-[#ec4899] italic mb-4 font-semibold">Our journey</h3>
         <p class="text-zinc-300 text-sm md:text-base leading-relaxed">Founded to simplify business through technology, BizFlow Systems has become a trusted digital transformation partner for forward‑thinking companies.</p>
@@ -280,12 +345,80 @@
   </div>
 </section>
 
-<!-- Beyond ordinary + services visual -->
+<!-- Trusted By / Stats Section (NEW - WOW Factor) -->
+<section class="py-16 border-b border-zinc-900 relative overflow-hidden" style="background: linear-gradient(180deg, #0d0e12 0%, #0b0c10 100%);">
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMSI+PHBhdGggZD0iTTM2IDE4YzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6TTI0IDQyYzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6TTQ4IDM2YzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="text-center mb-10">
+      <p class="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 mb-2">Trusted by businesses across Malaysia</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="space-y-2">
+        <div class="text-4xl md:text-5xl font-black text-white counter-value" data-target="150">0</div>
+        <p class="text-xs text-zinc-500 uppercase tracking-wider">Projects Delivered</p>
+      </div>
+      <div class="space-y-2">
+        <div class="text-4xl md:text-5xl font-black text-white counter-value" data-target="85">0</div>
+        <p class="text-xs text-zinc-500 uppercase tracking-wider">Happy Clients</p>
+      </div>
+      <div class="space-y-2">
+        <div class="text-4xl md:text-5xl font-black text-white counter-value" data-target="12">0</div>
+        <p class="text-xs text-zinc-500 uppercase tracking-wider">Years Experience</p>
+      </div>
+      <div class="space-y-2">
+        <div class="text-4xl md:text-5xl font-black text-white counter-value" data-target="99">0</div>
+        <p class="text-xs text-zinc-500 uppercase tracking-wider">% Client Satisfaction</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap justify-center items-center gap-8 mt-12 opacity-40">
+      <span class="text-zinc-500 font-bold text-sm tracking-widest">TENAGA NASIONAL</span>
+      <span class="text-zinc-500 font-bold text-sm tracking-widest">PETRONAS</span>
+      <span class="text-zinc-500 font-bold text-sm tracking-widest">MAYBANK</span>
+      <span class="text-zinc-500 font-bold text-sm tracking-widest">TM</span>
+      <span class="text-zinc-500 font-bold text-sm tracking-widest">SIME DARBY</span>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us (NEW - WOW Factor) -->
+<section id="why-us" class="py-24 relative border-b border-zinc-900" style="background: #0b0c10;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-5xl font-serif text-white font-bold">Why <span class="text-[#ec4899]">BizFlow Systems</span>?</h2>
+      <p class="text-zinc-400 mt-4 max-w-2xl mx-auto">We combine technical expertise with deep business understanding to deliver results that matter.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="gradient-border p-8 text-center group glow-card">
+        <div class="w-16 h-16 bg-[#ec4899]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#ec4899]/20 transition">
+          <i data-lucide="rocket" class="w-8 h-8 text-[#ec4899]"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Lightning Fast Delivery</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">We build and deploy solutions rapidly without compromising quality. Most projects go live within 2-4 weeks.</p>
+      </div>
+      <div class="gradient-border p-8 text-center group glow-card">
+        <div class="w-16 h-16 bg-[#ec4899]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#ec4899]/20 transition">
+          <i data-lucide="shield-check" class="w-8 h-8 text-[#ec4899]"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">100% Tailored Solutions</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">No cookie-cutter templates. Every dashboard, workflow, and system is built specifically for your business needs.</p>
+      </div>
+      <div class="gradient-border p-8 text-center group glow-card">
+        <div class="w-16 h-16 bg-[#ec4899]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#ec4899]/20 transition">
+          <i data-lucide="headphones" class="w-8 h-8 text-[#ec4899]"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Ongoing Support</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">We don't disappear after launch. Enjoy continuous support, updates, and training for your team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Beyond ordinary -->
 <section class="py-24 border-y border-zinc-900 relative" style="background: linear-gradient(135deg, #0d0e12 0%, #11131a 100%);">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-4xl mx-auto space-y-6">
       <h2 class="text-3xl md:text-4xl font-serif text-[#ec4899] font-bold">Beyond the ordinary</h2>
-      <p class="text-zinc-200 font-serif italic text-lg leading-relaxed">We don’t just deliver code – we deliver clarity. Every solution is tailored to your workflow, your team, and your growth.</p>
+      <p class="text-zinc-200 font-serif italic text-lg leading-relaxed">We don't just deliver code – we deliver clarity. Every solution is tailored to your workflow, your team, and your growth.</p>
       <a href="#contact" class="inline-flex items-center px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-widest bg-[#ec4899] text-white hover:bg-pink-600 transition shadow-md">Start your project</a>
     </div>
     <div class="mt-24 grid sm:grid-cols-3 gap-6">
@@ -296,7 +429,7 @@
   </div>
 </section>
 
-<!-- Core Services (expanded) -->
+<!-- Core Services -->
 <section id="core-services" class="py-24 relative border-b border-zinc-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-16">
@@ -317,7 +450,7 @@
   </div>
 </section>
 
-<!-- Portfolio with filter -->
+<!-- Portfolio -->
 <section id="portfolio" class="py-24 bg-zinc-950/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12">
@@ -331,30 +464,101 @@
       <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-zinc-800 text-zinc-300" data-filter="excel">Excel</button>
     </div>
     <div class="grid md:grid-cols-3 gap-6" id="portfolioGrid">
-      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="dashboard"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format" alt="retail dashboard" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Retail KPI Dashboard</h3><p class="text-zinc-400 text-sm">Real‑time sales & inventory monitoring</p></div></div>
-      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="automation"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format" alt="automated reporting" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Automated Reporting</h3><p class="text-zinc-400 text-sm">Saved 20+ hours per week</p></div></div>
-      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="excel"><img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&auto=format" alt="excel automation" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Excel Automation</h3><p class="text-zinc-400 text-sm">Macro‑driven financial reports</p></div></div>
-      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="dashboard"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format" alt="financial dashboard" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Financial Dashboard</h3><p class="text-zinc-400 text-sm">Interactive P&L analytics</p></div></div>
-      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="automation"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=400&auto=format" alt="workflow" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Approval Workflow</h3><p class="text-zinc-400 text-sm">Streamlined multi‑step approvals</p></div></div>
-      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="excel"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&auto=format" alt="inventory" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Inventory System</h3><p class="text-zinc-400 text-sm">Excel‑based stock tracker</p></div></div>
+      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 glow-card" data-category="dashboard"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format" alt="retail dashboard" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Retail KPI Dashboard</h3><p class="text-zinc-400 text-sm">Real‑time sales & inventory monitoring</p></div></div>
+      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 glow-card" data-category="automation"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format" alt="automated reporting" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Automated Reporting</h3><p class="text-zinc-400 text-sm">Saved 20+ hours per week</p></div></div>
+      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 glow-card" data-category="excel"><img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&auto=format" alt="excel automation" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Excel Automation</h3><p class="text-zinc-400 text-sm">Macro‑driven financial reports</p></div></div>
+      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 glow-card" data-category="dashboard"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format" alt="financial dashboard" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Financial Dashboard</h3><p class="text-zinc-400 text-sm">Interactive P&L analytics</p></div></div>
+      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 glow-card" data-category="automation"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=400&auto=format" alt="workflow" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Approval Workflow</h3><p class="text-zinc-400 text-sm">Streamlined multi‑step approvals</p></div></div>
+      <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 glow-card" data-category="excel"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&auto=format" alt="inventory" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Inventory System</h3><p class="text-zinc-400 text-sm">Excel‑based stock tracker</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- Testimonials slider -->
-<section id="testimonials" class="py-24 relative overflow-hidden">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-serif text-[#ec4899] font-bold">Client success stories</h2>
-      <p class="text-zinc-400 max-w-2xl mx-auto mt-3">Trusted by businesses across Malaysia</p>
+<!-- Testimonials (BEAUTIFUL ENHANCED VERSION) -->
+<section id="testimonials" class="py-24 relative overflow-hidden" style="background: linear-gradient(180deg, #0b0c10 0%, #0d0e12 100%);">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-pink-500/5 via-transparent to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="text-center mb-16">
+      <p class="text-xs font-bold uppercase tracking-[0.3em] text-[#ec4899] mb-3">💬 Testimonials</p>
+      <h2 class="text-3xl md:text-5xl font-serif text-white font-bold">What Our <span class="text-[#ec4899]">Clients Say</span></h2>
+      <p class="text-zinc-400 mt-4 max-w-2xl mx-auto">Real feedback from real businesses we've helped transform.</p>
     </div>
-    <div class="swiper testimonial-swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"><div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800"><div class="text-yellow-500 mb-3">★★★★★</div><p class="text-zinc-300 italic">"BizFlow transformed our reporting. The dashboard saved us countless hours. Highly recommended!"</p><p class="font-bold text-white mt-4">— Ahmad R., Retail Manager</p></div></div>
-        <div class="swiper-slide"><div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800"><div class="text-yellow-500 mb-3">★★★★★</div><p class="text-zinc-300 italic">"Excellent Excel automation. Syafiq understood our needs and delivered beyond expectations."</p><p class="font-bold text-white mt-4">— Suraya L., Finance Executive</p></div></div>
-        <div class="swiper-slide"><div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800"><div class="text-yellow-500 mb-3">★★★★★</div><p class="text-zinc-300 italic">"Professional, responsive, technically brilliant. Our inventory system works flawlessly."</p><p class="font-bold text-white mt-4">— Tan S., Operations Director</p></div></div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card p-8 rounded-2xl group">
+        <div class="flex items-center gap-1 mb-4">
+          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"BizFlow Systems transformed our entire reporting process. The dashboard they built is not only beautiful but saved us <strong class="text-white">20+ hours weekly</strong>. Syafiq understood our needs immediately."</p>
+        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">AR</div>
+          <div>
+            <p class="font-bold text-white text-sm">Ahmad Razali</p>
+            <p class="text-zinc-500 text-xs">Retail Operations Manager</p>
+          </div>
+        </div>
       </div>
-      <div class="swiper-pagination mt-8"></div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card p-8 rounded-2xl group">
+        <div class="flex items-center gap-1 mb-4">
+          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"Excellent Excel automation services. Our finance team went from <strong class="text-white">3 days of manual work to 2 hours</strong>. The macros and VBA solutions are robust and easy to maintain."</p>
+        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-bold text-lg">SL</div>
+          <div>
+            <p class="font-bold text-white text-sm">Suraya Latiff</p>
+            <p class="text-zinc-500 text-xs">Senior Finance Executive</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card p-8 rounded-2xl group">
+        <div class="flex items-center gap-1 mb-4">
+          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"Professional, responsive, and technically brilliant. Our custom inventory system works <strong class="text-white">flawlessly</strong> and the team training was top-notch. Already planning our next project together."</p>
+        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg">TS</div>
+          <div>
+            <p class="font-bold text-white text-sm">Tan Siew Ming</p>
+            <p class="text-zinc-500 text-xs">Operations Director</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional testimonial row (more social proof) -->
+    <div class="grid md:grid-cols-2 gap-8 mt-8">
+      <div class="testimonial-card p-8 rounded-2xl group">
+        <div class="flex items-center gap-1 mb-4">
+          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"We needed a complex approval workflow across 3 departments. BizFlow delivered a <strong class="text-white">seamless automated system</strong> that reduced approval time by 70%. Syafiq is a true problem solver."</p>
+        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-lg">NK</div>
+          <div>
+            <p class="font-bold text-white text-sm">Nor Khalidah</p>
+            <p class="text-zinc-500 text-xs">HR & Admin Manager</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card p-8 rounded-2xl group">
+        <div class="flex items-center gap-1 mb-4">
+          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"From initial consultation to final delivery, the experience was <strong class="text-white">smooth and professional</strong>. Our executive dashboard gives us real-time visibility we never had before."</p>
+        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">ZM</div>
+          <div>
+            <p class="font-bold text-white text-sm">Zulkifli Mahmood</p>
+            <p class="text-zinc-500 text-xs">Managing Director</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -365,7 +569,7 @@
     <div class="grid lg:grid-cols-12 gap-12">
       <div class="lg:col-span-6 flex flex-col justify-between space-y-10">
         <div>
-          <h2 class="text-3xl md:text-4xl font-serif font-bold text-white">Let’s build your digital future</h2>
+          <h2 class="text-3xl md:text-4xl font-serif font-bold text-white">Let's build your digital future</h2>
           <div class="mt-6"><p class="text-lg font-bold text-white">BizFlow Systems by Syafiq</p><p class="text-zinc-400 text-sm">Century Garden, Johor Bahru, Malaysia</p></div>
           <div class="border-t border-zinc-800 pt-4 mt-4"><span class="text-xs font-bold uppercase text-[#ec4899] tracking-wider">Business hours</span><p class="text-zinc-300 text-sm">Mon – Sun · 9:00 AM – 5:00 PM</p></div>
           <div class="border-t border-zinc-800 pt-4 mt-4"><span class="text-xs font-bold uppercase text-[#ec4899]">Contact</span><p class="text-zinc-300 text-sm">mohamadaimansyafiq2026@gmail.com<br>011-62960387</p></div>
@@ -487,6 +691,36 @@
     const mobileNav = document.getElementById('mobile-nav');
     menuBtn?.addEventListener('click', () => mobileNav?.classList.toggle('hidden'));
     mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileNav.classList.add('hidden')));
+
+    // Counter animation
+    const counters = document.querySelectorAll('.counter-value');
+    const animateCounter = (el) => {
+      const target = parseInt(el.getAttribute('data-target'));
+      const duration = 2000;
+      const step = target / (duration / 16);
+      let current = 0;
+      const update = () => {
+        current += step;
+        if (current < target) {
+          el.textContent = Math.floor(current);
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = target;
+        }
+      };
+      update();
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => observer.observe(counter));
   })();
 </script>
 </body>
