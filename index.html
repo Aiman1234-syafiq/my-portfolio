@@ -31,15 +31,6 @@
             sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
             serif: ['"Playfair Display"', 'Georgia', 'serif'],
           },
-          colors: {
-            brand: {
-              pink: '#ec4899',
-              deep: '#0b0c10',
-              panel: '#0e1015',
-              card: '#11131a',
-              border: '#1f2937',
-            }
-          }
         }
       }
     }
@@ -63,42 +54,33 @@
       background-color: #f8fafc;
       color: #0f172a;
     }
-    body.light-mode .bg-\[\#0b0c10\],
-    body.light-mode .bg-\[\#0e1015\],
-    body.light-mode .bg-\[\#0d0e12\] {
+    body.light-mode .dark-bg {
+      background-color: #ffffff !important;
+    }
+    body.light-mode .dark-bg-secondary {
+      background-color: #f1f5f9 !important;
+    }
+    body.light-mode .dark-border {
+      border-color: #e2e8f0 !important;
+    }
+    body.light-mode .text-muted {
+      color: #475569 !important;
+    }
+    body.light-mode .text-main {
+      color: #0f172a !important;
+    }
+    body.light-mode .card-dark {
       background-color: #ffffff !important;
       border-color: #e2e8f0 !important;
     }
-    body.light-mode .text-zinc-300,
-    body.light-mode .text-zinc-400,
-    body.light-mode .text-zinc-500 {
-      color: #334155 !important;
-    }
-    body.light-mode .text-white {
-      color: #0f172a !important;
-    }
-    body.light-mode .border-zinc-800,
-    body.light-mode .border-zinc-900 {
-      border-color: #cbd5e1 !important;
-    }
-    body.light-mode .bg-zinc-900\/50 {
-      background-color: rgba(241, 245, 249, 0.9) !important;
-    }
-    body.light-mode .bg-zinc-950\/90 {
-      background-color: rgba(255,255,255,0.95) !important;
-    }
-    body.light-mode .bg-zinc-900\/40 {
-      background-color: rgba(248, 250, 252, 0.8) !important;
+    body.light-mode .bg-accent\/10 {
+      background-color: rgba(236, 72, 153, 0.1) !important;
     }
 
-    .font-serif-elegant {
-      font-family: 'Playfair Display', Georgia, serif;
-    }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0b0c10; }
-    ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; transition: background 0.3s; }
 
-    /* loader */
     .loader-wrapper {
       position: fixed; inset: 0; background: #0b0c10; display: flex;
       justify-content: center; align-items: center; z-index: 9999;
@@ -111,7 +93,6 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* typing */
     .typing-text {
       border-right: 3px solid #ec4899; white-space: nowrap; overflow: hidden;
       animation: blink 0.75s step-end infinite;
@@ -119,8 +100,7 @@
     }
     @keyframes blink { from, to { border-color: transparent } 50% { border-color: #ec4899 } }
 
-    /* floating widgets */
-    .back-to-top, .whatsapp-button, .dark-mode-toggle {
+    .back-to-top, .whatsapp-button, .dark-mode-toggle, .color-palette {
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
     .back-to-top {
@@ -130,7 +110,7 @@
       transition: all 0.3s ease; z-index: 98;
     }
     .back-to-top.show { opacity: 1; visibility: visible; }
-    .back-to-top:hover { transform: translateY(-4px); background: #db2777; }
+    .back-to-top:hover { transform: translateY(-4px); filter: brightness(0.9); }
 
     .whatsapp-widget { position: fixed; bottom: 24px; right: 24px; z-index: 99; }
     .whatsapp-button {
@@ -164,7 +144,22 @@
     }
     body.light-mode .dark-mode-toggle { background: #e2e8f0; }
 
-    /* Glow effects */
+    .color-palette {
+      position: fixed; bottom: 24px; left: 90px; z-index: 99;
+      background: #1f2937; border-radius: 40px; padding: 8px 16px;
+      display: flex; gap: 12px; align-items: center;
+      transition: all 0.3s ease;
+    }
+    body.light-mode .color-palette { background: #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .color-option {
+      width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+      transition: transform 0.2s, border 0.2s;
+      border: 2px solid transparent;
+    }
+    .color-option:hover { transform: scale(1.15); }
+    .color-option.active { border-color: white; box-shadow: 0 0 0 2px #1f2937; }
+    body.light-mode .color-option.active { border-color: #1f2937; box-shadow: 0 0 0 2px white; }
+
     .glow-card {
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
@@ -173,18 +168,61 @@
       transform: translateY(-6px);
     }
 
+    .lang-switch {
+      display: flex;
+      gap: 8px;
+      margin-left: 20px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #3f3f46;
+      color: #a1a1aa;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .lang-btn.active {
+      background: #ec4899;
+      border-color: #ec4899;
+      color: white;
+    }
+    body.light-mode .lang-btn {
+      border-color: #cbd5e1;
+      color: #1e293b;
+    }
+    body.light-mode .lang-btn.active {
+      background: #ec4899;
+      border-color: #ec4899;
+      color: white;
+    }
     @media (max-width: 768px) {
+      .lang-switch { margin-left: 0; }
       .whatsapp-popup { width: 260px; right: -10px; }
       .typing-text { white-space: normal; border-right: none; animation: none; }
+      .color-palette { left: 90px; padding: 5px 12px; gap: 8px; }
+      .color-option { width: 22px; height: 22px; }
     }
   </style>
 </head>
-<body class="antialiased">
+<body>
 
 <!-- Loading -->
 <div class="loader-wrapper" id="loader-wrapper"><div class="loader"></div></div>
 
-<!-- Dark / Light toggle -->
+<!-- Color Palette Widget -->
+<div class="color-palette" id="colorPalette">
+  <div class="color-option active" data-color="pink" style="background: #ec4899;"></div>
+  <div class="color-option" data-color="blue" style="background: #3b82f6;"></div>
+  <div class="color-option" data-color="green" style="background: #10b981;"></div>
+  <div class="color-option" data-color="purple" style="background: #a855f7;"></div>
+  <div class="color-option" data-color="gold" style="background: #f59e0b;"></div>
+</div>
+
+<!-- Dark/Light toggle -->
 <div class="dark-mode-toggle" id="darkModeToggle">
   <i data-lucide="moon" class="w-5 h-5 text-white" id="darkModeIcon"></i>
 </div>
@@ -197,12 +235,12 @@
         <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
       </div>
       <div class="flex-1">
-        <p class="text-sm font-semibold text-gray-800">Chat with Syafiq</p>
-        <p class="text-xs text-gray-500 mt-1">Usually replies within minutes</p>
+        <p id="wa-title" class="text-sm font-semibold text-gray-800">Chat with Syafiq</p>
+        <p id="wa-sub" class="text-xs text-gray-500 mt-1">Usually replies within minutes</p>
         <div class="mt-3 space-y-2">
-          <a href="https://wa.me/601162960387?text=Hi%20Syafiq%2C%20I%E2%80%99m%20interested%20in%20your%20services" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700"><i data-lucide="zap" class="w-3 h-3"></i> General inquiry</a>
-          <a href="https://wa.me/601162960387?text=Hi%2C%20I%20need%20an%20inventory%20or%20procurement%20system" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700"><i data-lucide="package" class="w-3 h-3"></i> Inventory / Procurement</a>
-          <a href="https://wa.me/601162960387?text=Hi%2C%20need%20Excel%20macro%20or%20Python%20automation" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700"><i data-lucide="terminal" class="w-3 h-3"></i> Macro / Python</a>
+          <a href="https://wa.me/601162960387?text=Hi%20Syafiq%2C%20I%E2%80%99m%20interested%20in%20your%20services" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700"><i data-lucide="zap" class="w-3 h-3"></i> <span id="wa-gen">General inquiry</span></a>
+          <a href="https://wa.me/601162960387?text=Hi%2C%20I%20need%20an%20inventory%20or%20procurement%20system" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700"><i data-lucide="package" class="w-3 h-3"></i> <span id="wa-inv">Inventory / Procurement</span></a>
+          <a href="https://wa.me/601162960387?text=Hi%2C%20need%20Excel%20macro%20or%20Python%20automation" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700"><i data-lucide="terminal" class="w-3 h-3"></i> <span id="wa-auto">Macro / Python</span></a>
         </div>
       </div>
     </div>
@@ -219,22 +257,27 @@
 <header class="fixed top-0 left-0 right-0 z-50 bg-[#0b0c10]/95 border-b border-zinc-800/80 backdrop-blur-md transition-all duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 flex-wrap">
         <a href="#" class="flex items-center space-x-3 group">
-          <div class="w-12 h-12 bg-zinc-900 rounded-lg border border-zinc-700 flex items-center justify-center shadow-lg group-hover:border-pink-500 transition-all">
+          <div class="w-12 h-12 bg-zinc-900 rounded-lg border border-zinc-700 flex items-center justify-center shadow-lg transition-all" id="logoBox">
             <span class="text-2xl font-black text-white tracking-tighter">BF</span>
           </div>
           <span class="text-lg md:text-xl font-bold text-white flex items-center">
-            👉 <span class="ml-1 text-[#ec4899] font-serif italic font-semibold">BizFlow Systems</span>
+            👉 <span class="ml-1 font-serif italic font-semibold" id="brandText">BizFlow Systems</span>
           </span>
         </a>
+        <div class="lang-switch">
+          <button data-lang="en" class="lang-btn active">EN</button>
+          <button data-lang="ms" class="lang-btn">BM</button>
+          <button data-lang="zh" class="lang-btn">中文</button>
+        </div>
       </div>
       <nav class="hidden xl:flex space-x-8 text-[11px] font-bold tracking-widest text-zinc-300">
-        <a href="#home" class="nav-link hover:text-white uppercase transition">Home</a>
-        <a href="#why-us" class="nav-link hover:text-white uppercase transition">Why Us</a>
-        <a href="#core-services" class="nav-link hover:text-white uppercase transition">Services</a>
-        <a href="#portfolio" class="nav-link hover:text-white uppercase transition">Portfolio</a>
-        <a href="#contact" class="nav-link hover:text-white uppercase transition">Contact</a>
+        <a href="#home" data-i18n="nav-home" class="nav-link hover:text-white uppercase transition">Home</a>
+        <a href="#why-us" data-i18n="nav-why" class="nav-link hover:text-white uppercase transition">Why Us</a>
+        <a href="#core-services" data-i18n="nav-services" class="nav-link hover:text-white uppercase transition">Services</a>
+        <a href="#portfolio" data-i18n="nav-portfolio" class="nav-link hover:text-white uppercase transition">Portfolio</a>
+        <a href="#contact" data-i18n="nav-contact" class="nav-link hover:text-white uppercase transition">Contact</a>
       </nav>
       <div class="xl:hidden">
         <button id="mobile-menu-btn" class="text-zinc-400 p-2 hover:bg-zinc-900 rounded-lg"><i data-lucide="menu" class="w-6 h-6"></i></button>
@@ -242,106 +285,68 @@
     </div>
   </div>
   <div id="mobile-nav" class="hidden xl:hidden border-t border-zinc-800 bg-[#0b0c10] px-4 pt-2 pb-6 space-y-2">
-    <a href="#home" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">HOME</a>
-    <a href="#why-us" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">WHY US</a>
-    <a href="#core-services" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">SERVICES</a>
-    <a href="#portfolio" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">PORTFOLIO</a>
-    <a href="#contact" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">CONTACT</a>
+    <a href="#home" data-i18n="nav-home" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">HOME</a>
+    <a href="#why-us" data-i18n="nav-why" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">WHY US</a>
+    <a href="#core-services" data-i18n="nav-services" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">SERVICES</a>
+    <a href="#portfolio" data-i18n="nav-portfolio" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">PORTFOLIO</a>
+    <a href="#contact" data-i18n="nav-contact" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">CONTACT</a>
   </div>
 </header>
 
-<!-- Hero -->
+<!-- Hero Section -->
 <section id="home" class="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden" style="background: linear-gradient(135deg, #0b0c10 0%, #1a1c2a 100%);">
-  <div class="absolute inset-0 bg-gradient-to-tr from-[#ec4899]/10 via-transparent to-blue-500/10"></div>
+  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-blue-500/10" id="heroGradient"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="text-center max-w-5xl mx-auto space-y-8">
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-normal text-white leading-tight font-serif">
         <span class="typing-text" id="typingText"></span>
       </h1>
-      <p class="text-sm sm:text-base text-zinc-300 max-w-3xl mx-auto font-light">
-        I'm Syafiq – I help Malaysian SMEs simplify their operations with practical IT solutions: <strong class="text-white">inventory systems, procurement workflows, Excel macros, and Python automation</strong>. No overpromises, just real tools that work.
+      <p data-i18n="hero-desc" class="text-sm sm:text-base text-zinc-300 max-w-3xl mx-auto font-light">
+        I'm Syafiq – I help Malaysian SMEs simplify their operations with practical IT solutions: inventory systems, procurement workflows, Excel macros, and Python automation. No overpromises, just real tools that work.
       </p>
       <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#core-services" class="inline-flex items-center px-8 py-4 rounded-full text-xs font-bold bg-[#ec4899] text-white hover:bg-pink-600 hover:shadow-lg hover:shadow-pink-500/40 transition uppercase tracking-widest">See what I can build 🔔</a>
-        <a href="#contact" class="inline-flex items-center px-8 py-4 rounded-full text-xs font-bold border border-[#ec4899] text-[#ec4899] hover:bg-[#ec4899] hover:text-white transition uppercase tracking-widest">Let's discuss your needs</a>
+        <a href="#core-services" data-i18n="hero-btn1" class="inline-flex items-center px-8 py-4 rounded-full text-xs font-bold text-white hover:shadow-lg transition uppercase tracking-widest" id="heroBtn1">See what I can build 🔔</a>
+        <a href="#contact" data-i18n="hero-btn2" class="inline-flex items-center px-8 py-4 rounded-full text-xs font-bold border transition uppercase tracking-widest" id="heroBtn2">Let's discuss your needs</a>
       </div>
     </div>
     <div class="grid md:grid-cols-2 gap-8 mt-24">
-      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition glow-card">
-        <div class="absolute top-0 left-0 w-1 h-full bg-pink-500 group-hover:w-2 transition-all"></div>
-        <h3 class="text-xl font-serif text-[#ec4899] italic mb-4 font-semibold">What I do</h3>
-        <p class="text-zinc-300 text-sm md:text-base leading-relaxed">I build practical systems for real business problems – inventory tracking, procurement management, automated reporting. No jargon, just solutions that save you time and money.</p>
+      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition card-dark">
+        <div class="absolute top-0 left-0 w-1 h-full transition-all" id="cardAccent1"></div>
+        <h3 data-i18n="what-i-do-title" class="text-xl font-serif italic mb-4 font-semibold" id="accentText1">What I do</h3>
+        <p data-i18n="what-i-do-text" class="text-zinc-300 text-sm md:text-base leading-relaxed">I build practical systems for real business problems – inventory tracking, procurement management, automated reporting. No jargon, just solutions that save you time and money.</p>
       </div>
-      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition glow-card">
-        <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 group-hover:w-2 transition-all"></div>
-        <h3 class="text-xl font-serif text-[#ec4899] italic mb-4 font-semibold">My approach</h3>
-        <p class="text-zinc-300 text-sm md:text-base leading-relaxed">I start by understanding your workflow. Then I build a solution that fits – whether it's a simple Excel macro or a full inventory system. Every project is a step toward growing together.</p>
+      <div class="relative group bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition card-dark">
+        <div class="absolute top-0 left-0 w-1 h-full transition-all" id="cardAccent2"></div>
+        <h3 data-i18n="approach-title" class="text-xl font-serif italic mb-4 font-semibold" id="accentText2">My approach</h3>
+        <p data-i18n="approach-text" class="text-zinc-300 text-sm md:text-base leading-relaxed">I start by understanding your workflow. Then I build a solution that fits – whether it's a simple Excel macro or a full inventory system. Every project is a step toward growing together.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Industries We Serve -->
+<!-- Industries Section -->
 <section class="py-16 border-b border-zinc-900 relative overflow-hidden" style="background: linear-gradient(180deg, #0d0e12 0%, #0b0c10 100%);">
-  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMSI+PHBhdGggZD0iTTM2IDE4YzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6TTI0IDQyYzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6TTQ4IDM2YzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="text-center mb-10">
-      <p class="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 mb-2">Solutions for</p>
+      <p data-i18n="industries-tag" class="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 mb-2">Industries we serve</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 glow-card">
-        <i data-lucide="store" class="w-8 h-8 text-[#ec4899] mx-auto mb-3"></i>
-        <p class="text-white font-semibold text-sm">Retail & Wholesale</p>
-        <p class="text-zinc-500 text-xs mt-1">Inventory tracking, sales reports</p>
-      </div>
-      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 glow-card">
-        <i data-lucide="utensils-crossed" class="w-8 h-8 text-[#ec4899] mx-auto mb-3"></i>
-        <p class="text-white font-semibold text-sm">F&B / Restaurants</p>
-        <p class="text-zinc-500 text-xs mt-1">Stock management, cost tracking</p>
-      </div>
-      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 glow-card">
-        <i data-lucide="hard-hat" class="w-8 h-8 text-[#ec4899] mx-auto mb-3"></i>
-        <p class="text-white font-semibold text-sm">Construction</p>
-        <p class="text-zinc-500 text-xs mt-1">Material tracking, procurement</p>
-      </div>
-      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 glow-card">
-        <i data-lucide="truck" class="w-8 h-8 text-[#ec4899] mx-auto mb-3"></i>
-        <p class="text-white font-semibold text-sm">Logistics</p>
-        <p class="text-zinc-500 text-xs mt-1">Delivery tracking, basic dispatch</p>
-      </div>
+      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><i data-lucide="store" class="w-8 h-8 mx-auto mb-3" id="industryIcon1"></i><p data-i18n="ind-retail" class="text-white font-semibold text-sm">Retail & Wholesale</p><p data-i18n="ind-retail-desc" class="text-zinc-500 text-xs mt-1">Inventory tracking, sales reports</p></div>
+      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><i data-lucide="utensils-crossed" class="w-8 h-8 mx-auto mb-3" id="industryIcon2"></i><p data-i18n="ind-fnb" class="text-white font-semibold text-sm">F&B / Restaurants</p><p data-i18n="ind-fnb-desc" class="text-zinc-500 text-xs mt-1">Stock management, cost tracking</p></div>
+      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><i data-lucide="hard-hat" class="w-8 h-8 mx-auto mb-3" id="industryIcon3"></i><p data-i18n="ind-construction" class="text-white font-semibold text-sm">Construction</p><p data-i18n="ind-construction-desc" class="text-zinc-500 text-xs mt-1">Material tracking, procurement</p></div>
+      <div class="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><i data-lucide="truck" class="w-8 h-8 mx-auto mb-3" id="industryIcon4"></i><p data-i18n="ind-logistics" class="text-white font-semibold text-sm">Logistics</p><p data-i18n="ind-logistics-desc" class="text-zinc-500 text-xs mt-1">Delivery tracking, basic dispatch</p></div>
     </div>
   </div>
 </section>
 
-<!-- Why Choose Us -->
+<!-- Why Us Section -->
 <section id="why-us" class="py-24 relative border-b border-zinc-900" style="background: #0b0c10;">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-5xl font-serif text-white font-bold">Why work with <span class="text-[#ec4899]">me?</span></h2>
-      <p class="text-zinc-400 mt-4 max-w-2xl mx-auto">I may be new, but I'm committed, fast, and I genuinely care about solving your problems.</p>
-    </div>
+    <div class="text-center mb-16"><h2 data-i18n="why-title" class="text-3xl md:text-5xl font-serif text-white font-bold">Why work with <span id="whyAccent">me?</span></h2><p data-i18n="why-sub" class="text-zinc-400 mt-4 max-w-2xl mx-auto">I may be new, but I'm committed, fast, and I genuinely care about solving your problems.</p></div>
     <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-center group glow-card">
-        <div class="w-16 h-16 bg-[#ec4899]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#ec4899]/20 transition">
-          <i data-lucide="user-check" class="w-8 h-8 text-[#ec4899]"></i>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-3">One-on-One Attention</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">You deal directly with me – Syafiq. No account managers, no runaround. Your project gets my full focus.</p>
-      </div>
-      <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-center group glow-card">
-        <div class="w-16 h-16 bg-[#ec4899]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#ec4899]/20 transition">
-          <i data-lucide="wallet" class="w-8 h-8 text-[#ec4899]"></i>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-3">Affordable & Fair Pricing</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">I'm building my portfolio, so my rates are reasonable. You get quality work without the enterprise price tag.</p>
-      </div>
-      <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-center group glow-card">
-        <div class="w-16 h-16 bg-[#ec4899]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#ec4899]/20 transition">
-          <i data-lucide="sparkles" class="w-8 h-8 text-[#ec4899]"></i>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-3">Eager to Prove</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">Every project is a chance to build my reputation. I go the extra mile because your success = my portfolio.</p>
-      </div>
+      <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-center group card-dark glow-card"><div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition" id="whyIconBg1"><i data-lucide="user-check" class="w-8 h-8" id="whyIcon1"></i></div><h3 data-i18n="why-point1" class="text-xl font-bold text-white mb-3">One-on-One Attention</h3><p data-i18n="why-point1-text" class="text-zinc-400 text-sm leading-relaxed">You deal directly with me – Syafiq. No account managers, no runaround. Your project gets my full focus.</p></div>
+      <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-center group card-dark glow-card"><div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition" id="whyIconBg2"><i data-lucide="wallet" class="w-8 h-8" id="whyIcon2"></i></div><h3 data-i18n="why-point2" class="text-xl font-bold text-white mb-3">Affordable & Fair Pricing</h3><p data-i18n="why-point2-text" class="text-zinc-400 text-sm leading-relaxed">I'm building my portfolio, so my rates are reasonable. You get quality work without the enterprise price tag.</p></div>
+      <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-center group card-dark glow-card"><div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition" id="whyIconBg3"><i data-lucide="sparkles" class="w-8 h-8" id="whyIcon3"></i></div><h3 data-i18n="why-point3" class="text-xl font-bold text-white mb-3">Eager to Prove</h3><p data-i18n="why-point3-text" class="text-zinc-400 text-sm leading-relaxed">Every project is a chance to build my reputation. I go the extra mile because your success = my portfolio.</p></div>
     </div>
   </div>
 </section>
@@ -349,35 +354,14 @@
 <!-- Core Services -->
 <section id="core-services" class="py-24 relative border-b border-zinc-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-16">
-      <h2 class="text-2xl font-bold uppercase tracking-wider text-white flex items-center"><span class="mr-3 text-red-500 animate-pulse">🔥</span> What I can build for you</h2>
-      <p class="text-zinc-400 text-sm mt-2">Practical, working solutions – nothing theoretical.</p>
-    </div>
+    <div class="mb-16"><h2 class="text-2xl font-bold uppercase tracking-wider text-white flex items-center"><span class="mr-3 text-red-500 animate-pulse">🔥</span> <span data-i18n="services-head">What I can build for you</span></h2><p data-i18n="services-sub" class="text-zinc-400 text-sm mt-2">Practical, working solutions – nothing theoretical.</p></div>
     <div class="grid md:grid-cols-2 gap-x-16 gap-y-10">
-      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 glow-card">
-        <h3 class="text-base font-bold text-[#ec4899] font-serif italic flex items-center"><span class="mr-2">📦</span> Inventory Management System</h3>
-        <p class="text-zinc-300 text-sm mt-1">Track stock in/out, low stock alerts, basic reporting. Built with Excel or Google Sheets + some automation.</p>
-      </div>
-      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 glow-card">
-        <h3 class="text-base font-bold text-[#ec4899] font-serif italic flex items-center"><span class="mr-2">📋</span> Procurement / Purchasing System</h3>
-        <p class="text-zinc-300 text-sm mt-1">Manage purchase orders, supplier lists, approval flow. From manual tracking to semi-automated workflow.</p>
-      </div>
-      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 glow-card">
-        <h3 class="text-base font-bold text-[#ec4899] font-serif italic flex items-center"><span class="mr-2">⚡</span> Excel Macro Automation</h3>
-        <p class="text-zinc-300 text-sm mt-1">Turn your manual Excel tasks into one-click macros. Data cleaning, report generation, formatting – automated.</p>
-      </div>
-      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 glow-card">
-        <h3 class="text-base font-bold text-[#ec4899] font-serif italic flex items-center"><span class="mr-2">🐍</span> Python Script Automation</h3>
-        <p class="text-zinc-300 text-sm mt-1">Data processing, file management, web scraping, automated reports – Python scripts that save hours of manual work.</p>
-      </div>
-      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 glow-card">
-        <h3 class="text-base font-bold text-[#ec4899] font-serif italic flex items-center"><span class="mr-2">📊</span> Basic Dashboard / Reporting</h3>
-        <p class="text-zinc-300 text-sm mt-1">Simple visual dashboards using Excel or Google Sheets to show your key numbers at a glance.</p>
-      </div>
-      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 glow-card">
-        <h3 class="text-base font-bold text-[#ec4899] font-serif italic flex items-center"><span class="mr-2">🔧</span> Workflow Improvement</h3>
-        <p class="text-zinc-300 text-sm mt-1">Analyze your current process, identify bottlenecks, and build a better system – step by step.</p>
-      </div>
+      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><h3 class="text-base font-bold font-serif italic flex items-center" id="servAccent1"><span class="mr-2">📦</span> <span data-i18n="serv1">Inventory Management System</span></h3><p data-i18n="serv1-desc" class="text-zinc-300 text-sm mt-1">Track stock in/out, low stock alerts, basic reporting. Built with Excel or Google Sheets + some automation.</p></div>
+      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><h3 class="text-base font-bold font-serif italic flex items-center" id="servAccent2"><span class="mr-2">📋</span> <span data-i18n="serv2">Procurement / Purchasing System</span></h3><p data-i18n="serv2-desc" class="text-zinc-300 text-sm mt-1">Manage purchase orders, supplier lists, approval flow. From manual tracking to semi-automated workflow.</p></div>
+      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><h3 class="text-base font-bold font-serif italic flex items-center" id="servAccent3"><span class="mr-2">⚡</span> <span data-i18n="serv3">Excel Macro Automation</span></h3><p data-i18n="serv3-desc" class="text-zinc-300 text-sm mt-1">Turn your manual Excel tasks into one-click macros. Data cleaning, report generation, formatting – automated.</p></div>
+      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><h3 class="text-base font-bold font-serif italic flex items-center" id="servAccent4"><span class="mr-2">🐍</span> <span data-i18n="serv4">Python Script Automation</span></h3><p data-i18n="serv4-desc" class="text-zinc-300 text-sm mt-1">Data processing, file management, web scraping, automated reports – Python scripts that save hours of manual work.</p></div>
+      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><h3 class="text-base font-bold font-serif italic flex items-center" id="servAccent5"><span class="mr-2">📊</span> <span data-i18n="serv5">Basic Dashboard / Reporting</span></h3><p data-i18n="serv5-desc" class="text-zinc-300 text-sm mt-1">Simple visual dashboards using Excel or Google Sheets to show your key numbers at a glance.</p></div>
+      <div class="bg-zinc-900/40 p-6 rounded-xl border border-zinc-800 card-dark glow-card"><h3 class="text-base font-bold font-serif italic flex items-center" id="servAccent6"><span class="mr-2">🔧</span> <span data-i18n="serv6">Workflow Improvement</span></h3><p data-i18n="serv6-desc" class="text-zinc-300 text-sm mt-1">Analyze your current process, identify bottlenecks, and build a better system – step by step.</p></div>
     </div>
   </div>
 </section>
@@ -385,101 +369,24 @@
 <!-- Portfolio -->
 <section id="portfolio" class="py-24 bg-zinc-950/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-serif text-[#ec4899] font-bold">My work so far</h2>
-      <p class="text-zinc-400 max-w-2xl mx-auto mt-3">Real projects I've built. More coming as I grow.</p>
-    </div>
-
+    <div class="text-center mb-12"><h2 data-i18n="portfolio-title" class="text-3xl md:text-4xl font-serif font-bold" id="portfolioTitle">My work so far</h2><p data-i18n="portfolio-sub" class="text-zinc-400 max-w-2xl mx-auto mt-3">Real projects I've built. More coming as I grow.</p></div>
     <div class="grid md:grid-cols-3 gap-6">
-      <!-- Project 1: Inventory System -->
-      <div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 glow-card">
-        <div class="bg-gradient-to-br from-emerald-900/40 to-teal-900/40 p-8 flex items-center justify-center">
-          <i data-lucide="package-search" class="w-16 h-16 text-emerald-400"></i>
-        </div>
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-white text-lg">Inventory Management System</h3>
-            <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">Completed</span>
-          </div>
-          <p class="text-zinc-400 text-sm leading-relaxed">Excel-based system with stock in/out tracking, automatic low-stock alerts, and monthly summary reports. Used by a small retail business.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span>
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA Macro</span>
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Google Sheets</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 2: Procurement System -->
-      <div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 glow-card">
-        <div class="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 p-8 flex items-center justify-center">
-          <i data-lucide="file-text" class="w-16 h-16 text-blue-400"></i>
-        </div>
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-white text-lg">Procurement Workflow System</h3>
-            <span class="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">Completed</span>
-          </div>
-          <p class="text-zinc-400 text-sm leading-relaxed">Purchase order tracker with supplier database, approval status flow, and budget monitoring. Built for a construction material supplier.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span>
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA</span>
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Python</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 3: Macro/Python Automation -->
-      <div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 glow-card">
-        <div class="bg-gradient-to-br from-purple-900/40 to-pink-900/40 p-8 flex items-center justify-center">
-          <i data-lucide="terminal" class="w-16 h-16 text-purple-400"></i>
-        </div>
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-white text-lg">Excel Macro & Python Scripts</h3>
-            <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">Ongoing</span>
-          </div>
-          <p class="text-zinc-400 text-sm leading-relaxed">Collection of automation scripts: auto-report generation, data cleaning macros, file organization tools. Built for various small business tasks.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA</span>
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Python</span>
-            <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span>
-          </div>
-        </div>
-      </div>
+      <div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 card-dark glow-card"><div class="bg-gradient-to-br p-8 flex items-center justify-center" id="projectGrad1"><i data-lucide="package-search" class="w-16 h-16" id="projectIcon1"></i></div><div class="p-6"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-white text-lg"><span data-i18n="port1-title">Inventory Management System</span></h3><span class="text-xs font-bold px-3 py-1 rounded-full" id="portBadge1"><span data-i18n="completed">Completed</span></span></div><p data-i18n="port1-desc" class="text-zinc-400 text-sm leading-relaxed">Excel-based system with stock in/out tracking, automatic low-stock alerts, and monthly summary reports. Used by a small retail business.</p><div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA Macro</span><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Google Sheets</span></div></div></div>
+      <div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 card-dark glow-card"><div class="bg-gradient-to-br p-8 flex items-center justify-center" id="projectGrad2"><i data-lucide="file-text" class="w-16 h-16" id="projectIcon2"></i></div><div class="p-6"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-white text-lg"><span data-i18n="port2-title">Procurement Workflow System</span></h3><span class="text-xs font-bold px-3 py-1 rounded-full" id="portBadge2"><span data-i18n="completed">Completed</span></span></div><p data-i18n="port2-desc" class="text-zinc-400 text-sm leading-relaxed">Purchase order tracker with supplier database, approval status flow, and budget monitoring. Built for a construction material supplier.</p><div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA</span><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Python</span></div></div></div>
+      <div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 card-dark glow-card"><div class="bg-gradient-to-br p-8 flex items-center justify-center" id="projectGrad3"><i data-lucide="terminal" class="w-16 h-16" id="projectIcon3"></i></div><div class="p-6"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-white text-lg"><span data-i18n="port3-title">Excel Macro & Python Scripts</span></h3><span class="text-xs font-bold px-3 py-1 rounded-full" id="portBadge3"><span data-i18n="ongoing">Ongoing</span></span></div><p data-i18n="port3-desc" class="text-zinc-400 text-sm leading-relaxed">Collection of automation scripts: auto-report generation, data cleaning macros, file organization tools. Built for various small business tasks.</p><div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA</span><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Python</span><span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span></div></div></div>
     </div>
-
-    <!-- Upcoming projects -->
-    <div class="text-center mt-12">
-      <p class="text-zinc-500 text-sm italic">More projects in progress – dashboard development, system integration, and custom business applications coming soon. 🚀</p>
-    </div>
+    <div class="text-center mt-12"><p data-i18n="portfolio-upcoming" class="text-zinc-500 text-sm italic">More projects in progress – dashboard development, system integration, and custom business applications coming soon. 🚀</p></div>
   </div>
 </section>
 
-<!-- Contact + map -->
+<!-- Contact -->
 <section id="contact" class="py-24 bg-zinc-950/30">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-12 gap-12">
       <div class="lg:col-span-6 flex flex-col justify-between space-y-10">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-serif font-bold text-white">Let's discuss your project</h2>
-          <p class="text-zinc-400 mt-3 text-sm">No commitment – just a conversation to see if I can help.</p>
-          <div class="mt-6"><p class="text-lg font-bold text-white">BizFlow Systems by Syafiq</p><p class="text-zinc-400 text-sm">Century Garden, Johor Bahru, Malaysia</p></div>
-          <div class="border-t border-zinc-800 pt-4 mt-4"><span class="text-xs font-bold uppercase text-[#ec4899] tracking-wider">Available hours</span><p class="text-zinc-300 text-sm">Mon – Sun · 9:00 AM – 5:00 PM</p></div>
-          <div class="border-t border-zinc-800 pt-4 mt-4"><span class="text-xs font-bold uppercase text-[#ec4899]">Contact</span><p class="text-zinc-300 text-sm">mohamadaimansyafiq2026@gmail.com<br>011-62960387</p></div>
-        </div>
-        <div class="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800">
-          <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Send me a message</h4>
-          <form action="https://formsubmit.co/mohamadaimansyafiq2026@gmail.com" method="POST" class="space-y-3">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_subject" value="New inquiry from BizFlow website">
-            <input type="text" name="name" required placeholder="Your name" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-pink-500">
-            <input type="email" name="email" required placeholder="Email address" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-pink-500">
-            <textarea name="message" required rows="3" placeholder="Tell me about your project or problem..." class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-pink-500"></textarea>
-            <button type="submit" class="w-full py-3 bg-[#ec4899] hover:bg-pink-600 text-white font-bold rounded-lg text-xs uppercase tracking-widest transition">Send message 🚀</button>
-          </form>
-        </div>
+        <div><h2 data-i18n="contact-title" class="text-3xl md:text-4xl font-serif font-bold text-white">Let's discuss your project</h2><p data-i18n="contact-sub" class="text-zinc-400 mt-3 text-sm">No commitment – just a conversation to see if I can help.</p><div class="mt-6"><p class="text-lg font-bold text-white">BizFlow Systems by Syafiq</p><p data-i18n="address" class="text-zinc-400 text-sm">Century Garden, Johor Bahru, Malaysia</p></div><div class="border-t border-zinc-800 pt-4 mt-4"><span data-i18n="hours-title" class="text-xs font-bold uppercase tracking-wider" id="hoursAccent">Available hours</span><p data-i18n="hours" class="text-zinc-300 text-sm">Mon – Sun · 9:00 AM – 5:00 PM</p></div><div class="border-t border-zinc-800 pt-4 mt-4"><span data-i18n="contact-details" class="text-xs font-bold uppercase" id="contactAccent">Contact</span><p class="text-zinc-300 text-sm">mohamadaimansyafiq2026@gmail.com<br>011-62960387</p></div></div>
+        <div class="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800 card-dark"><h4 data-i18n="form-title" class="text-sm font-bold uppercase tracking-wider text-white mb-3">Send me a message</h4>
+          <form action="https://formsubmit.co/mohamadaimansyafiq2026@gmail.com" method="POST" class="space-y-3"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="text" name="name" required data-i18n-placeholder="form-name" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none" id="formInput"><input type="email" name="email" required data-i18n-placeholder="form-email" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none" id="formInput2"><textarea name="message" required rows="3" data-i18n-placeholder="form-msg" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none" id="formTextarea"></textarea><button type="submit" class="w-full py-3 text-white font-bold rounded-lg text-xs uppercase tracking-widest transition" id="submitBtn"><span data-i18n="form-send">Send message 🚀</span></button></form></div>
       </div>
       <div class="lg:col-span-6 min-h-[350px] rounded-lg overflow-hidden border border-zinc-800"><div id="map" class="w-full h-full"></div></div>
     </div>
@@ -488,83 +395,287 @@
 
 <footer class="bg-zinc-950 text-zinc-500 py-10 border-t border-zinc-900 text-xs">
   <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p>© 2026 👉 BizFlow Systems by Syafiq. All rights reserved.</p>
-    <p>Built with dedication · <a href="#" class="hover:text-pink-500 underline">BizFlow</a></p>
+    <p data-i18n="footer-copyright" class="text-center">© 2026 👉 BizFlow Systems by Syafiq. All rights reserved.</p>
+    <p>Built with dedication · <a href="#" class="underline" id="footerLink">BizFlow</a></p>
   </div>
 </footer>
 
 <script>
-  (function() {
-    // Loader
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const loader = document.getElementById('loader-wrapper');
-        if (loader) { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; }
-      }, 400);
-    });
-
-    // Typing
-    const phrases = ["Practical IT Solutions for Malaysian SMEs", "Inventory · Procurement · Automation", "Simple Tools That Actually Work"];
-    let phraseIndex = 0, charIndex = 0, isDeleting = false;
-    const typingEl = document.getElementById('typingText');
-    function type() {
-      if (!typingEl) return;
-      const current = phrases[phraseIndex];
-      typingEl.textContent = isDeleting ? current.substring(0, charIndex-1) : current.substring(0, charIndex+1);
-      charIndex += isDeleting ? -1 : 1;
-      if (!isDeleting && charIndex === current.length) { isDeleting = true; setTimeout(type, 2000); return; }
-      if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex+1) % phrases.length; setTimeout(type, 400); return; }
-      setTimeout(type, isDeleting ? 50 : 90);
+(function() {
+  // Loader
+  window.addEventListener('load', () => { setTimeout(() => { const loader = document.getElementById('loader-wrapper'); if (loader) { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; } }, 400); });
+  
+  // Typing effect
+  const phrases = ["Practical IT Solutions for Malaysian SMEs", "Inventory · Procurement · Automation", "Simple Tools That Actually Work"];
+  let phraseIndex = 0, charIndex = 0, isDeleting = false;
+  const typingEl = document.getElementById('typingText');
+  function type() { if (!typingEl) return; const current = phrases[phraseIndex]; typingEl.textContent = isDeleting ? current.substring(0, charIndex-1) : current.substring(0, charIndex+1); charIndex += isDeleting ? -1 : 1; if (!isDeleting && charIndex === current.length) { isDeleting = true; setTimeout(type, 2000); return; } if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex+1) % phrases.length; setTimeout(type, 400); return; } setTimeout(type, isDeleting ? 50 : 90); } type();
+  
+  lucide.createIcons();
+  
+  // Map
+  const mapEl = document.getElementById('map'); if (mapEl) { const map = L.map(mapEl).setView([1.4885, 103.7615], 14); L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CartoDB' }).addTo(map); L.marker([1.4885, 103.7615]).addTo(map).bindPopup('<b>BizFlow Systems</b><br>Century Garden, JB').openPopup(); }
+  
+  // Back to top
+  const backBtn = document.getElementById('backToTop'); window.addEventListener('scroll', () => backBtn?.classList.toggle('show', window.scrollY > 300)); backBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  
+  // WhatsApp
+  const waBtn = document.getElementById('whatsappButton'); const waPopup = document.getElementById('whatsappPopup'); waBtn?.addEventListener('click', () => waPopup?.classList.toggle('show')); document.addEventListener('click', (e) => { if (waBtn && waPopup && !waBtn.contains(e.target) && !waPopup.contains(e.target)) waPopup.classList.remove('show'); });
+  
+  // Dark mode
+  const toggle = document.getElementById('darkModeToggle'); const icon = document.getElementById('darkModeIcon'); toggle?.addEventListener('click', () => { document.body.classList.toggle('light-mode'); if (icon) { icon.setAttribute('data-lucide', document.body.classList.contains('light-mode') ? 'sun' : 'moon'); lucide.createIcons(); } });
+  
+  // Mobile menu
+  const menuBtn = document.getElementById('mobile-menu-btn'); const mobileNav = document.getElementById('mobile-nav'); menuBtn?.addEventListener('click', () => mobileNav?.classList.toggle('hidden')); mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileNav.classList.add('hidden')));
+  
+  // Color themes
+  const colorThemes = {
+    pink: { main: '#ec4899', dark: '#db2777', light: '#f472b6' },
+    blue: { main: '#3b82f6', dark: '#2563eb', light: '#60a5fa' },
+    green: { main: '#10b981', dark: '#059669', light: '#34d399' },
+    purple: { main: '#a855f7', dark: '#9333ea', light: '#c084fc' },
+    gold: { main: '#f59e0b', dark: '#d97706', light: '#fbbf24' }
+  };
+  
+  function applyColorTheme(themeName) {
+    const theme = colorThemes[themeName];
+    if (!theme) return;
+    
+    // Update scrollbar
+    let style = document.getElementById('theme-scroll-style');
+    if (!style) { style = document.createElement('style'); style.id = 'theme-scroll-style'; document.head.appendChild(style); }
+    style.textContent = `::-webkit-scrollbar-thumb { background: ${theme.main} !important; } .typing-text { border-right-color: ${theme.main} !important; } @keyframes blink { from, to { border-color: transparent } 50% { border-color: ${theme.main} } }`;
+    
+    // Update back to top button
+    const backBtnEl = document.getElementById('backToTop');
+    if (backBtnEl) backBtnEl.style.background = theme.main;
+    
+    // Update header border hover
+    const logoBox = document.getElementById('logoBox');
+    if (logoBox) logoBox.style.borderColor = theme.main;
+    
+    // Brand text color
+    const brandText = document.getElementById('brandText');
+    if (brandText) brandText.style.color = theme.main;
+    
+    // Hero buttons
+    const heroBtn1 = document.getElementById('heroBtn1');
+    const heroBtn2 = document.getElementById('heroBtn2');
+    if (heroBtn1) heroBtn1.style.backgroundColor = theme.main;
+    if (heroBtn2) { heroBtn2.style.borderColor = theme.main; heroBtn2.style.color = theme.main; }
+    
+    // Card accents
+    const cardAccent1 = document.getElementById('cardAccent1');
+    const cardAccent2 = document.getElementById('cardAccent2');
+    if (cardAccent1) cardAccent1.style.backgroundColor = theme.main;
+    if (cardAccent2) cardAccent2.style.backgroundColor = theme.main;
+    
+    // Accent texts
+    const accentTexts = ['accentText1', 'accentText2', 'whyAccent', 'portfolioTitle', 'hoursAccent', 'contactAccent', 'servAccent1', 'servAccent2', 'servAccent3', 'servAccent4', 'servAccent5', 'servAccent6'];
+    accentTexts.forEach(id => { const el = document.getElementById(id); if (el) el.style.color = theme.main; });
+    
+    // Industry icons
+    for (let i = 1; i <= 4; i++) {
+      const icon = document.getElementById(`industryIcon${i}`);
+      if (icon) icon.style.color = theme.main;
     }
-    type();
-
-    // Icons
-    lucide.createIcons();
-
-    // Map
-    const mapEl = document.getElementById('map');
-    if (mapEl) {
-      const map = L.map(mapEl).setView([1.4885, 103.7615], 14);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CartoDB'
-      }).addTo(map);
-      L.marker([1.4885, 103.7615]).addTo(map).bindPopup('<b>BizFlow Systems</b><br>Century Garden, JB').openPopup();
+    
+    // Why section icons background & icons
+    for (let i = 1; i <= 3; i++) {
+      const bg = document.getElementById(`whyIconBg${i}`);
+      const iconEl = document.getElementById(`whyIcon${i}`);
+      if (bg) bg.style.backgroundColor = `${theme.main}10`;
+      if (iconEl) iconEl.style.color = theme.main;
     }
-
-    // Back to top
-    const backBtn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      backBtn?.classList.toggle('show', window.scrollY > 300);
+    
+    // Project gradients and icons
+    for (let i = 1; i <= 3; i++) {
+      const grad = document.getElementById(`projectGrad${i}`);
+      const iconProj = document.getElementById(`projectIcon${i}`);
+      const badge = document.getElementById(`portBadge${i}`);
+      if (grad) grad.style.background = `linear-gradient(to bottom right, ${theme.main}20, ${theme.main}08)`;
+      if (iconProj) iconProj.style.color = theme.main;
+      if (badge) { badge.style.backgroundColor = `${theme.main}20`; badge.style.color = theme.main; }
+    }
+    
+    // Form inputs focus
+    const inputs = ['formInput', 'formInput2', 'formTextarea'];
+    inputs.forEach(id => { const el = document.getElementById(id); if (el) el.style.borderColor = theme.main; });
+    
+    // Submit button
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) submitBtn.style.backgroundColor = theme.main;
+    
+    // Footer link
+    const footerLink = document.getElementById('footerLink');
+    if (footerLink) footerLink.style.color = theme.main;
+    
+    // Language buttons active state
+    document.querySelectorAll('.lang-btn.active').forEach(btn => {
+      btn.style.backgroundColor = theme.main;
+      btn.style.borderColor = theme.main;
     });
-    backBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // WhatsApp popup
-    const waBtn = document.getElementById('whatsappButton');
-    const waPopup = document.getElementById('whatsappPopup');
-    waBtn?.addEventListener('click', () => waPopup?.classList.toggle('show'));
-    document.addEventListener('click', (e) => {
-      if (waBtn && waPopup && !waBtn.contains(e.target) && !waPopup.contains(e.target)) {
-        waPopup.classList.remove('show');
-      }
+    
+    // Hero gradient
+    const heroGrad = document.getElementById('heroGradient');
+    if (heroGrad) heroGrad.style.background = `linear-gradient(135deg, ${theme.main}08, transparent, #3b82f608)`;
+    
+    // Color options active state
+    document.querySelectorAll('.color-option').forEach(opt => {
+      opt.classList.remove('active');
+      if (opt.getAttribute('data-color') === themeName) opt.classList.add('active');
     });
-
-    // Dark mode
-    const toggle = document.getElementById('darkModeToggle');
-    const icon = document.getElementById('darkModeIcon');
-    toggle?.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      if (icon) {
-        icon.setAttribute('data-lucide', document.body.classList.contains('light-mode') ? 'sun' : 'moon');
-        lucide.createIcons();
-      }
+    
+    localStorage.setItem('bizflow-color-theme', themeName);
+  }
+  
+  // Set color options click handlers
+  document.querySelectorAll('.color-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const colorName = opt.getAttribute('data-color');
+      applyColorTheme(colorName);
     });
-
-    // Mobile menu
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileNav = document.getElementById('mobile-nav');
-    menuBtn?.addEventListener('click', () => mobileNav?.classList.toggle('hidden'));
-    mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileNav.classList.add('hidden')));
-  })();
+  });
+  
+  // Load saved color theme
+  const savedTheme = localStorage.getItem('bizflow-color-theme') || 'pink';
+  applyColorTheme(savedTheme);
+  
+  // Translations
+  const translations = {
+    en: {
+      "nav-home": "Home", "nav-why": "Why Us", "nav-services": "Services", "nav-portfolio": "Portfolio", "nav-contact": "Contact",
+      "hero-desc": "I'm Syafiq – I help Malaysian SMEs simplify their operations with practical IT solutions: inventory systems, procurement workflows, Excel macros, and Python automation. No overpromises, just real tools that work.",
+      "hero-btn1": "See what I can build 🔔", "hero-btn2": "Let's discuss your needs",
+      "what-i-do-title": "What I do", "what-i-do-text": "I build practical systems for real business problems – inventory tracking, procurement management, automated reporting. No jargon, just solutions that save you time and money.",
+      "approach-title": "My approach", "approach-text": "I start by understanding your workflow. Then I build a solution that fits – whether it's a simple Excel macro or a full inventory system. Every project is a step toward growing together.",
+      "industries-tag": "Industries we serve",
+      "ind-retail": "Retail & Wholesale", "ind-retail-desc": "Inventory tracking, sales reports",
+      "ind-fnb": "F&B / Restaurants", "ind-fnb-desc": "Stock management, cost tracking",
+      "ind-construction": "Construction", "ind-construction-desc": "Material tracking, procurement",
+      "ind-logistics": "Logistics", "ind-logistics-desc": "Delivery tracking, basic dispatch",
+      "why-title": "Why work with", "why-sub": "I may be new, but I'm committed, fast, and I genuinely care about solving your problems.",
+      "why-point1": "One-on-One Attention", "why-point1-text": "You deal directly with me – Syafiq. No account managers, no runaround. Your project gets my full focus.",
+      "why-point2": "Affordable & Fair Pricing", "why-point2-text": "I'm building my portfolio, so my rates are reasonable. You get quality work without the enterprise price tag.",
+      "why-point3": "Eager to Prove", "why-point3-text": "Every project is a chance to build my reputation. I go the extra mile because your success = my portfolio.",
+      "services-head": "What I can build for you", "services-sub": "Practical, working solutions – nothing theoretical.",
+      "serv1": "Inventory Management System", "serv1-desc": "Track stock in/out, low stock alerts, basic reporting. Built with Excel or Google Sheets + some automation.",
+      "serv2": "Procurement / Purchasing System", "serv2-desc": "Manage purchase orders, supplier lists, approval flow. From manual tracking to semi-automated workflow.",
+      "serv3": "Excel Macro Automation", "serv3-desc": "Turn your manual Excel tasks into one-click macros. Data cleaning, report generation, formatting – automated.",
+      "serv4": "Python Script Automation", "serv4-desc": "Data processing, file management, web scraping, automated reports – Python scripts that save hours of manual work.",
+      "serv5": "Basic Dashboard / Reporting", "serv5-desc": "Simple visual dashboards using Excel or Google Sheets to show your key numbers at a glance.",
+      "serv6": "Workflow Improvement", "serv6-desc": "Analyze your current process, identify bottlenecks, and build a better system – step by step.",
+      "portfolio-title": "My work so far", "portfolio-sub": "Real projects I've built. More coming as I grow.",
+      "port1-title": "Inventory Management System", "port1-desc": "Excel-based system with stock in/out tracking, automatic low-stock alerts, and monthly summary reports. Used by a small retail business.",
+      "port2-title": "Procurement Workflow System", "port2-desc": "Purchase order tracker with supplier database, approval status flow, and budget monitoring. Built for a construction material supplier.",
+      "port3-title": "Excel Macro & Python Scripts", "port3-desc": "Collection of automation scripts: auto-report generation, data cleaning macros, file organization tools. Built for various small business tasks.",
+      "completed": "Completed", "ongoing": "Ongoing", "portfolio-upcoming": "More projects in progress – dashboard development, system integration, and custom business applications coming soon. 🚀",
+      "contact-title": "Let's discuss your project", "contact-sub": "No commitment – just a conversation to see if I can help.",
+      "address": "Century Garden, Johor Bahru, Malaysia", "hours-title": "Available hours", "hours": "Mon – Sun · 9:00 AM – 5:00 PM", "contact-details": "Contact", "form-title": "Send me a message",
+      "form-name": "Your name", "form-email": "Email address", "form-msg": "Tell me about your project or problem...", "form-send": "Send message 🚀",
+      "footer-copyright": "© 2026 👉 BizFlow Systems by Syafiq. All rights reserved."
+    },
+    ms: {
+      "nav-home": "Utama", "nav-why": "Kenapa Kami", "nav-services": "Perkhidmatan", "nav-portfolio": "Portfolio", "nav-contact": "Hubungi",
+      "hero-desc": "Saya Syafiq – membantu PKS Malaysia dengan penyelesaian IT praktikal: sistem inventori, aliran kerja perolehan, makro Excel, dan automasi Python. Janji realistik, alat yang berkesan.",
+      "hero-btn1": "Lihat apa yang saya bina 🔔", "hero-btn2": "Bincangkan keperluan anda",
+      "what-i-do-title": "Apa yang saya buat", "what-i-do-text": "Saya bina sistem praktikal untuk masalah perniagaan sebenar – penjejakan inventori, pengurusan perolehan, laporan automatik. Mudah dan menjimatkan masa dan wang.",
+      "approach-title": "Pendekatan saya", "approach-text": "Saya fahami aliran kerja anda, kemudian bina penyelesaian yang sesuai – sama ada makro Excel mudah atau sistem inventori penuh.",
+      "industries-tag": "Industri yang kami layani",
+      "ind-retail": "Runcit & Borong", "ind-retail-desc": "Penjejakan inventori, laporan jualan",
+      "ind-fnb": "Makanan & Minuman", "ind-fnb-desc": "Pengurusan stok, penjejakan kos",
+      "ind-construction": "Pembinaan", "ind-construction-desc": "Penjejakan bahan, perolehan",
+      "ind-logistics": "Logistik", "ind-logistics-desc": "Penjejakan penghantaran",
+      "why-title": "Kenapa bekerjasama dengan", "why-sub": "Saya baru tetapi komited, pantas, dan prihatin.",
+      "why-point1": "Perhatian Sepenuhnya", "why-point1-text": "Anda berurusan terus dengan saya – Syafiq.",
+      "why-point2": "Harga Berpatutan", "why-point2-text": "Saya sedang membina portfolio, kadar saya munasabah.",
+      "why-point3": "Bersungguh-sungguh", "why-point3-text": "Setiap projek peluang membina reputasi saya.",
+      "services-head": "Apa yang saya boleh bina", "services-sub": "Penyelesaian praktikal yang berfungsi.",
+      "serv1": "Sistem Inventori", "serv1-desc": "Jejak stok masuk/keluar, amaran stok rendah.",
+      "serv2": "Sistem Perolehan", "serv2-desc": "Urus pesanan pembelian, senarai pembekal.",
+      "serv3": "Automasi Makro Excel", "serv3-desc": "Tukar tugas Excel manual kepada makro satu klik.",
+      "serv4": "Automasi Skrip Python", "serv4-desc": "Pemprosesan data, pengurusan fail, laporan automatik.",
+      "serv5": "Dashboard Asas", "serv5-desc": "Dashboard ringkas menggunakan Excel atau Google Sheets.",
+      "serv6": "Penambahbaikan Aliran Kerja", "serv6-desc": "Analisis proses, kenal pasti kesesakan.",
+      "portfolio-title": "Hasil kerja saya", "portfolio-sub": "Projek sebenar yang telah saya bina.",
+      "port1-title": "Sistem Inventori", "port1-desc": "Sistem berasaskan Excel dengan penjejakan stok.",
+      "port2-title": "Sistem Perolehan", "port2-desc": "Penjejak pesanan pembelian dengan pangkalan data pembekal.",
+      "port3-title": "Makro Excel & Skrip Python", "port3-desc": "Koleksi skrip automasi untuk pelbagai tugas.",
+      "completed": "Selesai", "ongoing": "Sedang Berjalan", "portfolio-upcoming": "Lebih banyak projek akan datang. 🚀",
+      "contact-title": "Bincangkan projek anda", "contact-sub": "Tiada komitmen – hanya perbualan.",
+      "address": "Taman Abad, Johor Bahru", "hours-title": "Waktu tersedia", "hours": "Isnin – Ahad · 9:00 PG – 5:00 PTG", "contact-details": "Hubungi", "form-title": "Hantar mesej",
+      "form-name": "Nama anda", "form-email": "Alamat emel", "form-msg": "Ceritakan projek anda...", "form-send": "Hantar mesej 🚀",
+      "footer-copyright": "© 2026 👉 BizFlow Systems oleh Syafiq."
+    },
+    zh: {
+      "nav-home": "首页", "nav-why": "为什么选择我们", "nav-services": "服务", "nav-portfolio": "项目", "nav-contact": "联系",
+      "hero-desc": "我是 Syafiq – 帮助马来西亚中小企业：库存系统、采购流程、Excel宏和Python自动化。",
+      "hero-btn1": "查看我能构建什么 🔔", "hero-btn2": "讨论您的需求",
+      "what-i-do-title": "我的工作", "what-i-do-text": "为真实业务问题构建实用系统 – 库存跟踪、采购管理、自动报告。",
+      "approach-title": "我的方法", "approach-text": "了解您的工作流程，构建适合的解决方案。",
+      "industries-tag": "我们服务的行业",
+      "ind-retail": "零售与批发", "ind-retail-desc": "库存跟踪，销售报告",
+      "ind-fnb": "餐饮业", "ind-fnb-desc": "库存管理，成本跟踪",
+      "ind-construction": "建筑业", "ind-construction-desc": "材料跟踪，采购",
+      "ind-logistics": "物流业", "ind-logistics-desc": "配送跟踪",
+      "why-title": "为什么选择我？", "why-sub": "我虽是新面孔，但我承诺快速响应。",
+      "why-point1": "一对一关注", "why-point1-text": "您直接与我 – Syafiq 对接。",
+      "why-point2": "实惠定价", "why-point2-text": "我正在建立作品集，价格合理。",
+      "why-point3": "渴望证明", "why-point3-text": "每个项目都是建立声誉的机会。",
+      "services-head": "我可以为您构建什么", "services-sub": "实用的解决方案。",
+      "serv1": "库存管理系统", "serv1-desc": "跟踪进出库、低库存警报。",
+      "serv2": "采购系统", "serv2-desc": "管理采购订单、供应商列表。",
+      "serv3": "Excel宏自动化", "serv3-desc": "一键宏，数据清洗、报告生成。",
+      "serv4": "Python脚本自动化", "serv4-desc": "数据处理、文件管理、自动报告。",
+      "serv5": "基础仪表板", "serv5-desc": "使用Excel或Google表格的简单仪表板。",
+      "serv6": "工作流程改进", "serv6-desc": "分析流程，识别瓶颈。",
+      "portfolio-title": "我的项目作品", "portfolio-sub": "我构建的真实项目。",
+      "port1-title": "库存管理系统", "port1-desc": "基于Excel的系统，具有进出库跟踪。",
+      "port2-title": "采购工作流系统", "port2-desc": "采购订单跟踪器，供应商数据库。",
+      "port3-title": "Excel宏和Python脚本", "port3-desc": "自动化脚本集合。",
+      "completed": "已完成", "ongoing": "进行中", "portfolio-upcoming": "更多项目即将推出。🚀",
+      "contact-title": "讨论您的项目", "contact-sub": "无承诺 – 只是聊一聊。",
+      "address": "世纪花园, 新山", "hours-title": "可用时间", "hours": "周一至周日 · 上午9:00 – 下午5:00", "contact-details": "联系方式", "form-title": "发送消息",
+      "form-name": "您的名字", "form-email": "电子邮箱", "form-msg": "描述您的项目...", "form-send": "发送消息 🚀",
+      "footer-copyright": "© 2026 👉 BizFlow Systems 由 Syafiq 提供。"
+    }
+  };
+  
+  function setLanguage(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (translations[lang] && translations[lang][key]) el.placeholder = translations[lang][key];
+    });
+    const waTexts = {
+      en: { title: "Chat with Syafiq", sub: "Usually replies within minutes", gen: "General inquiry", inv: "Inventory / Procurement", auto: "Macro / Python" },
+      ms: { title: "Chat dengan Syafiq", sub: "Biasanya membalas dalam beberapa minit", gen: "Pertanyaan umum", inv: "Inventori / Perolehan", auto: "Makro / Python" },
+      zh: { title: "与 Syafiq 聊天", sub: "通常几分钟内回复", gen: "一般咨询", inv: "库存 / 采购", auto: "宏 / Python" }
+    };
+    if (waTexts[lang]) {
+      document.getElementById('wa-title').innerText = waTexts[lang].title;
+      document.getElementById('wa-sub').innerText = waTexts[lang].sub;
+      document.getElementById('wa-gen').innerText = waTexts[lang].gen;
+      document.getElementById('wa-inv').innerText = waTexts[lang].inv;
+      document.getElementById('wa-auto').innerText = waTexts[lang].auto;
+    }
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
+    // Update active button color to current theme
+    const currentTheme = localStorage.getItem('bizflow-color-theme') || 'pink';
+    const themeColor = colorThemes[currentTheme].main;
+    document.querySelectorAll('.lang-btn.active').forEach(btn => {
+      btn.style.backgroundColor = themeColor;
+      btn.style.borderColor = themeColor;
+    });
+  }
+  
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', (e) => { setLanguage(btn.getAttribute('data-lang')); }));
+  setLanguage('en');
+})();
 </script>
 </body>
 </html>
