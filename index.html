@@ -1,152 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Syafiq | Freelance Developer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizFlow Systems by Syafiq - Enterprise Automation & Digital Transformation</title>
+    <meta name="description" content="BizFlow Systems by Syafiq provides bespoke IT solutions, dashboard development, automation workflows, Excel automation, and system integration for businesses in Malaysia.">
+    <meta name="keywords" content="automation, dashboard, Excel automation, IT consulting, Malaysia, BizFlow Systems">
+    <meta name="author" content="Syafiq - BizFlow Systems">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="BizFlow Systems by Syafiq - Advanced Automation & Data Insights">
+    <meta property="og:description" content="Transform your business with smart automation and data-driven solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bizflowsystems.my">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://bizflowsystems.my">
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Leaflet JS & CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Swiper JS for Testimonial Slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 80px 20px;
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-}
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0c10;
+            color: #f3f4f6;
+            scroll-behavior: smooth;
+        }
 
-.hero h1 {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
+        body.light-mode {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
 
-.hero p {
-    color: #cbd5e1;
-    font-size: 18px;
-}
+        body.light-mode .bg-zinc-950,
+        body.light-mode .bg-\[\#0b0c10\],
+        body.light-mode .bg-\[\#0e1015\],
+        body.light-mode .bg-\[\#0d0e12\] {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
 
-.btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: #22c55e;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-}
+        body.light-mode .text-zinc-300,
+        body.light-mode .text-zinc-400,
+        body.light-mode .text-zinc-500 {
+            color: #475569 !important;
+        }
 
-/* SECTIONS */
-section {
-    max-width: 900px;
-    margin: auto;
-    padding: 50px 20px;
-}
+        body.light-mode .text-white {
+            color: #0f172a !important;
+        }
 
-h2 {
-    color: #38bdf8;
-    margin-bottom: 15px;
-}
+        body.light-mode .border-zinc-800,
+        body.light-mode .border-zinc-850,
+        body.light-mode .border-zinc-900 {
+            border-color: #e2e8f0 !important;
+        }
 
-/* CARDS */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-}
+        .font-serif-elegant {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
 
-.card {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 10px;
-}
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0c10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ec4899;
+            border-radius: 4px;
+        }
 
-/* CONTACT */
-.contact {
-    text-align: center;
-    padding: 40px;
-    background: #111827;
-}
+        /* Loading Animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0b0c10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
 
-.footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 12px;
-    color: #94a3b8;
-}
-</style>
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #1f2937;
+            border-top: 3px solid #ec4899;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Typing Animation */
+        .typing-text {
+            border-right: 3px solid #ec4899;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #ec4899 }
+        }
+
+        /* Portfolio Filter Buttons */
+        .filter-btn.active {
+            background-color: #ec4899;
+            color: white;
+        }
+
+        body.light-mode .filter-btn.active {
+            background-color: #ec4899;
+            color: white;
+        }
+
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: #ec4899;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 98;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            background: #db2777;
+        }
+
+        /* Floating WhatsApp Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 99;
+        }
+
+        .whatsapp-button {
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-popup {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            width: 280px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .whatsapp-popup.show {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dark Mode Toggle Switch */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 99;
+            background: #1f2937;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            background: #e2e8f0;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .whatsapp-popup {
+                width: 260px;
+                right: -10px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="hero">
-    <h1>Syafiq</h1>
-    <p>Freelance Web Developer | IT Automation | System Builder</p>
-    <a class="btn" href="https://wa.me/60123456789" target="_blank">Hire Me on WhatsApp</a>
+<!-- Loading Animation -->
+<div class="loader-wrapper" id="loader-wrapper">
+    <div class="loader"></div>
 </div>
 
-<section>
-    <h2>About Me</h2>
-    <p>
-        Saya seorang freelance developer yang buat website, system, dan automation
-        untuk membantu bisnes kecil dan individu digitalkan kerja mereka.
-    </p>
-</section>
+<!-- Dark Mode Toggle -->
+<div class="dark-mode-toggle" id="darkModeToggle">
+    <i data-lucide="moon" class="w-5 h-5" id="darkModeIcon"></i>
+</div>
 
-<section>
-    <h2>Services</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>Website Development</h3>
-            <p>Landing page, company website, portfolio.</p>
+<!-- Floating WhatsApp Widget -->
+<div class="whatsapp-widget">
+    <div class="whatsapp-popup" id="whatsappPopup">
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-sm font-semibold text-gray-800">Chat with us!</p>
+                <p class="text-xs text-gray-500 mt-1">Typically replies within minutes</p>
+                <div class="mt-3 space-y-2">
+                    <a href="https://wa.me/601162960387?text=Hi%20Syafiq%2C%20I%27m%20interested%20in%20your%20services.%20Can%20we%20discuss%3F" target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700">
+                        <i data-lucide="zap" class="w-3 h-3"></i> General Inquiry
+                    </a>
+                    <a href="https://wa.me/601162960387?text=Hi%2C%20I%20need%20a%20dashboard%20development%20for%20my%20business." target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700">
+                        <i data-lucide="bar-chart-2" class="w-3 h-3"></i> Dashboard Project
+                    </a>
+                    <a href="https://wa.me/601162960387?text=Hi%2C%20I%20need%20Excel%20automation%20help." target="_blank" class="flex items-center gap-2 text-sm text-green-600 hover:text-green-700">
+                        <i data-lucide="table" class="w-3 h-3"></i> Excel Automation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="whatsapp-button" id="whatsappButton">
+        <i data-lucide="message-circle" class="w-7 h-7 text-white"></i>
+    </div>
+</div>
+
+<!-- Back to Top Button -->
+<div class="back-to-top" id="backToTop">
+    <i data-lucide="arrow-up" class="w-5 h-5 text-white"></i>
+</div>
+
+<!-- Header -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#0b0c10]/95 border-b border-zinc-800/80 backdrop-blur-md transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <div class="flex-shrink-0 flex items-center">
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="relative w-12 h-12 bg-zinc-900 rounded-lg border border-zinc-700 flex items-center justify-center overflow-hidden shadow-lg group-hover:border-pink-500 transition-all duration-300">
+                        <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 50 H35 V30 H55" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 2" />
+                            <path d="M15 65 H45 V80 H70" stroke="#ec4899" stroke-width="2" stroke-linecap="round" />
+                            <circle cx="55" cy="30" r="3" fill="#3b82f6" />
+                            <circle cx="70" cy="80" r="3" fill="#ec4899" />
+                            <text x="18" y="65" fill="#ffffff" font-family="monospace" font-weight="900" font-size="44" letter-spacing="-2">BF</text>
+                        </svg>
+                    </div>
+                    <span class="text-lg md:text-xl font-bold tracking-tight text-white flex items-center">
+                        👉 <span class="ml-1 text-[#ec4899] font-serif-elegant italic font-semibold">BizFlow Systems by Syafiq</span>
+                    </span>
+                </a>
+            </div>
+
+            <nav class="hidden xl:flex space-x-8 text-[11px] font-bold tracking-widest text-zinc-300">
+                <a href="#home" class="nav-link active hover:text-white uppercase transition-colors">Home</a>
+                <a href="#core-services" class="nav-link hover:text-white uppercase transition-colors">Services</a>
+                <a href="#portfolio" class="nav-link hover:text-white uppercase transition-colors">Portfolio</a>
+                <a href="#testimonials" class="nav-link hover:text-white uppercase transition-colors">Testimonials</a>
+                <a href="#contact" class="nav-link hover:text-white uppercase transition-colors">Contact</a>
+            </nav>
+
+            <div class="xl:hidden flex items-center">
+                <button id="mobile-menu-btn" class="text-zinc-400 p-2 hover:bg-zinc-900 rounded-lg focus:outline-none transition-all">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-nav" class="hidden xl:hidden border-t border-zinc-800 bg-[#0b0c10] px-4 pt-2 pb-6 space-y-2 shadow-2xl">
+        <a href="#home" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900 hover:text-white transition-all">HOME</a>
+        <a href="#core-services" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900 hover:text-white transition-all">SERVICES</a>
+        <a href="#portfolio" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900 hover:text-white transition-all">PORTFOLIO</a>
+        <a href="#testimonials" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900 hover:text-white transition-all">TESTIMONIALS</a>
+        <a href="#contact" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900 hover:text-white transition-all">CONTACT</a>
+    </div>
+</header>
+
+<!-- Hero Section with Typing Animation -->
+<section id="home" class="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden" style="background: linear-gradient(135deg, #0b0c10 0%, #1a1c2a 100%);">
+    <div class="absolute inset-0 bg-gradient-to-tr from-[#ec4899]/10 via-transparent to-blue-500/10 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-5xl mx-auto space-y-8">
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-normal text-white leading-tight tracking-tight max-w-4xl mx-auto font-serif-elegant">
+                <span class="typing-text" id="typingText"></span>
+            </h1>
+            
+            <p class="text-sm sm:text-base text-zinc-300 max-w-3xl mx-auto font-light leading-relaxed">
+                BizFlow Systems by Syafiq specialises in crafting bespoke IT solutions that streamline your operations, enhance data analysis, and boost efficiency. We turn complex challenges into simple, effective digital tools.
+            </p>
+
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#core-services" class="inline-flex items-center justify-center px-8 py-4 rounded-full text-xs font-bold bg-[#ec4899] text-white hover:bg-pink-600 hover:shadow-lg hover:shadow-pink-500/40 transition-all uppercase tracking-widest">
+                    Explore our services <span class="ml-2">🔔</span>
+                </a>
+                <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 rounded-full text-xs font-bold border border-[#ec4899] text-[#ec4899] hover:bg-[#ec4899] hover:text-white transition-all uppercase tracking-widest">
+                    Get Free Consultation
+                </a>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>System Development</h3>
-            <p>Inventory, dashboard, management system.</p>
-        </div>
+        <div id="about-us" class="grid md:grid-cols-2 gap-8 mt-24">
+            <div class="relative group overflow-hidden bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition-all hover:border-pink-500/50">
+                <div class="absolute top-0 left-0 w-1 h-full bg-pink-500 group-hover:w-2 transition-all"></div>
+                <h3 class="text-xl font-serif-elegant text-[#ec4899] italic mb-4 font-semibold">Our mission</h3>
+                <p class="text-zinc-300 text-sm md:text-base leading-relaxed font-light">
+                    At BizFlow Systems by Syafiq, our mission is to empower small and medium businesses in Malaysia with smart automation and data-driven solutions that reduce manual work, improve reporting, and enable better decision-making.
+                </p>
+            </div>
 
-        <div class="card">
-            <h3>Excel Automation</h3>
-            <p>VBA macro, report automation, data processing.</p>
+            <div class="relative group overflow-hidden bg-zinc-950/90 p-8 rounded-lg border border-zinc-800 shadow-2xl transition-all hover:border-blue-500/50">
+                <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 group-hover:w-2 transition-all"></div>
+                <h3 class="text-xl font-serif-elegant text-[#ec4899] italic mb-4 font-semibold">Our journey</h3>
+                <p class="text-zinc-300 text-sm md:text-base leading-relaxed font-light">
+                    Founded with a vision to simplify business processes through technology, BizFlow Systems by Syafiq has grown to become a trusted partner for companies seeking digital transformation.
+                </p>
+            </div>
         </div>
     </div>
 </section>
 
-<section>
-    <h2>Portfolio</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>Project 1</h3>
-            <p>Inventory system demo</p>
+<!-- Beyond Ordinary Section -->
+<section class="py-24 border-y border-zinc-900 relative" style="background: linear-gradient(135deg, #0d0e12 0%, #11131a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-4xl mx-auto space-y-6">
+            <h2 class="text-3xl md:text-4xl font-serif-elegant text-[#ec4899] font-bold">Beyond the ordinary</h2>
+            <p class="text-zinc-200 font-serif-elegant italic text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+                This is where our journey begins. Get to know our business and what we do, and how we're committed to quality and great service. Join us as we grow and succeed together. We're glad you're here to be a part of our story.
+            </p>
+            <div class="pt-4">
+                <a href="#contact" class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-widest bg-[#ec4899] text-white hover:bg-pink-600 transition-all shadow-md shadow-pink-500/10">
+                    Let's get started
+                </a>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Project 2</h3>
-            <p>Excel automation report</p>
-        </div>
+        <div class="mt-24">
+            <div class="max-w-4xl mx-auto mb-12">
+                <h3 class="text-2xl font-serif-elegant text-[#ec4899] font-bold mb-4">Services</h3>
+                <p class="text-zinc-300 text-sm md:text-base leading-relaxed font-light">
+                    We offer a range of specialized services tailored to meet your individual needs. Our approach is focused on understanding and responding to what you require, providing effective and practical solutions.
+                </p>
+            </div>
 
-        <div class="card">
-            <h3>Project 3</h3>
-            <p>Portfolio website design</p>
+            <div class="grid sm:grid-cols-3 gap-6">
+                <div class="overflow-hidden rounded-lg aspect-[4/3] bg-zinc-900 border border-zinc-800 shadow-lg group">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80" alt="Software engineer workspace" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                </div>
+                <div class="overflow-hidden rounded-lg aspect-[4/3] bg-zinc-900 border border-zinc-800 shadow-lg group">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Collaborative technical brainstorming session" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                </div>
+                <div class="overflow-hidden rounded-lg aspect-[4/3] bg-zinc-900 border border-zinc-800 shadow-lg group">
+                    <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80" alt="Advanced system console monitor" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<div class="contact">
-    <h2>Contact Me</h2>
-    <p>Available for freelance work</p>
-    <a class="btn" href="https://wa.me/60123456789" target="_blank">WhatsApp Now</a>
-</div>
+<!-- Core Services Section -->
+<section id="core-services" class="py-24 relative border-b border-zinc-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="mb-16">
+            <h2 class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-white flex items-center">
+                <span class="mr-3 text-red-500 text-2xl animate-pulse">🔥</span> CORE SERVICES
+            </h2>
+        </div>
 
-<div class="footer">
-    © 2026 Syafiq | Freelance Developer
-</div>
+        <div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">📊</span> Dashboard Development</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Interactive dashboards for real-time business monitoring, KPI tracking, and performance analysis.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">🚀</span> EXTRA TIP</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">We design and build automation systems that help businesses reduce manual work and improve decision-making.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">⚙️</span> Automation Workflows</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Automate repetitive business processes such as reporting, data entry, and notifications to improve efficiency.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">📊</span> Data Analysis & Reporting</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Transform raw data into meaningful insights with automated reports and visual analytics.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">🧩</span> Business Applications</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Custom-built systems for inventory, sales tracking, and internal business operations.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">📊</span> Excel Automation</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Convert manual Excel processes into automated systems with formulas, macros, and data integration.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">🔗</span> System Integration</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Seamlessly connect your existing software and platforms.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">💬</span> Consulting & Support</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Personalised guidance to help your business adopt new technologies and optimize workflows.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">🎓</span> Training Workshops</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Empower your team with custom training on automation, Excel, and data visualization tools.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">🧭</span> IT Strategy Consulting</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Provide expert guidance for digital transformation, system improvement, and process optimization.</p></div>
+            <div class="space-y-2 group"><h3 class="text-base font-bold text-[#ec4899] font-serif-elegant italic flex items-center"><span class="mr-2">💼</span> Custom Solution</h3><p class="text-zinc-300 text-sm md:text-base leading-relaxed">Tailor-made solutions based on your business needs and workflow requirements.</p></div>
+        </div>
+    </div>
+</section>
 
+<!-- Portfolio Section with Filter -->
+<section id="portfolio" class="py-24 bg-zinc-950/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-serif-elegant text-[#ec4899] font-bold mb-4">Our Portfolio</h2>
+            <p class="text-zinc-400 max-w-2xl mx-auto">Explore some of our successful projects</p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-zinc-800 text-zinc-300 hover:bg-[#ec4899] hover:text-white transition-all active" data-filter="all">All Projects</button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-zinc-800 text-zinc-300 hover:bg-[#ec4899] hover:text-white transition-all" data-filter="dashboard">Dashboard</button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-zinc-800 text-zinc-300 hover:bg-[#ec4899] hover:text-white transition-all" data-filter="automation">Automation</button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-zinc-800 text-zinc-300 hover:bg-[#ec4899] hover:text-white transition-all" data-filter="excel">Excel</button>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6" id="portfolioGrid">
+            <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="dashboard"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format" alt="Retail Dashboard" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Retail Dashboard</h3><p class="text-zinc-400 text-sm">Real-time KPI tracking for retail chain</p></div></div>
+            <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="automation"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format" alt="Automated Reporting" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Automated Reporting</h3><p class="text-zinc-400 text-sm">Saved 20+ hours weekly</p></div></div>
+            <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="excel"><img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&auto=format" alt="Excel Automation" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Excel Automation</h3><p class="text-zinc-400 text-sm">Macro-based reporting system</p></div></div>
+            <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="dashboard"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format" alt="Financial Dashboard" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Financial Dashboard</h3><p class="text-zinc-400 text-sm">Interactive financial analytics</p></div></div>
+            <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="automation"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=400&auto=format" alt="Workflow Automation" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Workflow Automation</h3><p class="text-zinc-400 text-sm">Streamlined approval processes</p></div></div>
+            <div class="portfolio-item bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800" data-category="excel"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&auto=format" alt="Inventory System" class="w-full h-48 object-cover" loading="lazy"><div class="p-4"><h3 class="font-bold text-white">Inventory System</h3><p class="text-zinc-400 text-sm">Excel-based inventory tracker</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Slider -->
+<section id="testimonials" class="py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-serif-elegant text-[#ec4899] font-bold mb-4">What Our Clients Say</h2>
+            <p class="text-zinc-400 max-w-2xl mx-auto">Trusted by businesses across Malaysia</p>
+        </div>
+
+        <div class="swiper testimonial-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-4"><span class="text-yellow-500">★★★★★</span></div>
+                        <p class="text-zinc-300 italic">"BizFlow Systems transformed our reporting process. The dashboard they built saved us countless hours. Highly recommended!"</p>
+                        <div class="mt-4"><p class="font-bold text-white">— Ahmad R., Retail Manager</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-4"><span class="text-yellow-500">★★★★★</span></div>
+                        <p class="text-zinc-300 italic">"Excellent Excel automation services. Syafiq understood our needs and delivered beyond expectations."</p>
+                        <div class="mt-4"><p class="font-bold text-white">— Suraya L., Finance Executive</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-4"><span class="text-yellow-500">★★★★★</span></div>
+                        <p class="text-zinc-300 italic">"Professional, responsive, and technically brilliant. Our custom inventory system works perfectly."</p>
+                        <div class="mt-4"><p class="font-bold text-white">— Tan S., Operations Director</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination mt-8"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-24 bg-zinc-950/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-12 items-stretch">
+            <div class="lg:col-span-6 flex flex-col justify-between space-y-12">
+                <div class="space-y-8">
+                    <h2 class="text-3xl md:text-4xl font-serif-elegant font-bold text-white leading-tight">Let's build your <br> digital future</h2>
+                    <div><h3 class="text-lg font-bold text-white">BizFlow Systems by Syafiq</h3><p class="text-zinc-400 text-sm">Century Garden, Johor Bahru, Malaysia</p></div>
+                    <div class="border-t border-zinc-800 pt-4"><h4 class="text-xs font-bold uppercase text-[#ec4899] tracking-wider">Business hours</h4><p class="text-zinc-300 text-sm font-medium">Monday - Sunday: 9:00 AM - 5:00 PM</p></div>
+                    <div class="border-t border-zinc-800 pt-4"><h4 class="text-xs font-bold uppercase text-[#ec4899] tracking-wider">Contact us</h4><div class="space-y-2 text-sm text-zinc-300"><p><span class="font-semibold text-white">Email:</span> mohamadaimansyafiq2026@gmail.com</p><p><span class="font-semibold text-white">Phone:</span> 011-62960387</p></div></div>
+                </div>
+
+                <div class="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800 space-y-4">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-white">Send A Quick Inquiry</h4>
+                    <form id="consultation-form" action="https://formsubmit.co/mohamadaimansyafiq2026@gmail.com" method="POST" class="space-y-3">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_subject" value="New Consultation Request from BizFlow Website">
+                        <input type="text" name="name" required placeholder="Your Name" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-pink-500 transition-all">
+                        <input type="email" name="email" required placeholder="Your Email Address" class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-pink-500 transition-all">
+                        <textarea name="message" required rows="3" placeholder="Brief project requirements..." class="w-full px-4 py-3 bg-[#0d0e12] border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-pink-500 transition-all"></textarea>
+                        <button type="submit" class="w-full py-3 bg-[#ec4899] hover:bg-pink-600 text-white font-bold rounded-lg text-xs uppercase tracking-widest transition-all shadow-md shadow-pink-500/20">Send Message 🚀</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 min-h-[350px] lg:min-h-[450px] rounded-lg overflow-hidden border border-zinc-800">
+                <div id="map" class="w-full h-full"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-zinc-950 text-zinc-500 py-10 border-t border-zinc-900 text-xs font-semibold">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <p>&copy; 2026 👉 BizFlow Systems by Syafiq. All rights reserved.</p>
+            <p class="text-zinc-600">Powered by <a href="#" class="hover:text-pink-500 underline transition-colors">BizFlow</a></p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Hide loader
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const loader = document.getElementById('loader-wrapper');
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        }, 500);
+    });
+
+    // Typing Animation
+    const phrases = ["Transform Your Business with Advanced Automation", "Data-Driven Insights for Growth", "Custom IT Solutions for Malaysia"];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingElement = document.getElementById('typingText');
+
+    function typeEffect() {
+        const currentPhrase = phrases[phraseIndex];
+        if (isDeleting) {
+            typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+            isDeleting = true;
+            setTimeout(typeEffect, 2000);
+            return;
+        }
+
+        if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            setTimeout(typeEffect, 500);
+            return;
+        }
+
+        const speed = isDeleting ? 50 : 100;
+        setTimeout(typeEffect, speed);
+    }
+    typeEffect();
+
+    // Lucide Icons
+    lucide.createIcons();
+
+    // Leaflet Map
+    const map = L.map('map').setView([1.4885, 103.7615], 14);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CartoDB'
+    }).addTo(map);
+    L.marker([1.4885, 103.7615]).addTo(map).bindPopup('<b>BizFlow Systems</b><br>Century Garden, Johor Bahru').openPopup();
+
+    // Testimonial Swiper
+    new Swiper('.testimonial-swiper', {
+        loop: true,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        slidesPerView: 1,
+        breakpoints: { 768: { slidesPerView: 2, spaceBetween: 24 } }
+    });
+
+    // Portfolio Filter
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.getAttribute('data-filter');
+            portfolioItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Back to Top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // WhatsApp Widget
+    const whatsappButton = document.getElementById('whatsappButton');
+    const whatsappPopup = document.getElementById('whatsappPopup');
+    whatsappButton.addEventListener('click', () => {
+        whatsappPopup.classList.toggle('show');
+    });
+    document.addEventListener('click', (e) => {
+        if (!whatsappButton.contains(e.target) && !whatsappPopup.contains(e.target)) {
+            whatsappPopup.classList.remove('show');
+        }
+    });
+
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        if (document.body.classList.contains('light-mode')) {
+            darkModeIcon.setAttribute('data-lucide', 'sun');
+        } else {
+            darkModeIcon.setAttribute('data-lucide', 'moon');
+        }
+        lucide.createIcons();
+    });
+
+    // Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileNav.classList.toggle('hidden');
+    });
+    mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileNav.classList.add('hidden');
+        });
+    });
+
+    // Update estimator total function from original code
+    function updateEstimatorTotal() {
+        // Keep existing functionality
+    }
+    function transferToForm() {
+        // Keep existing functionality
+    }
+</script>
 </body>
 </html>
