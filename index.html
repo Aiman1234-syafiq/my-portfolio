@@ -49,8 +49,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,9 +63,6 @@
       background-color: #f8fafc;
       color: #0f172a;
     }
-    body.light-mode .bg-brand-deep,
-    body.light-mode .bg-brand-panel,
-    body.light-mode .bg-brand-card,
     body.light-mode .bg-\[\#0b0c10\],
     body.light-mode .bg-\[\#0e1015\],
     body.light-mode .bg-\[\#0d0e12\] {
@@ -83,9 +78,7 @@
       color: #0f172a !important;
     }
     body.light-mode .border-zinc-800,
-    body.light-mode .border-zinc-850,
-    body.light-mode .border-zinc-900,
-    body.light-mode .border-brand-border {
+    body.light-mode .border-zinc-900 {
       border-color: #cbd5e1 !important;
     }
     body.light-mode .bg-zinc-900\/50 {
@@ -93,6 +86,9 @@
     }
     body.light-mode .bg-zinc-950\/90 {
       background-color: rgba(255,255,255,0.95) !important;
+    }
+    body.light-mode .bg-zinc-900\/40 {
+      background-color: rgba(248, 250, 252, 0.8) !important;
     }
 
     .font-serif-elegant {
@@ -122,14 +118,6 @@
       display: inline-block; max-width: 100%;
     }
     @keyframes blink { from, to { border-color: transparent } 50% { border-color: #ec4899 } }
-
-    /* filter buttons */
-    .filter-btn.active {
-      background-color: #ec4899; color: white; box-shadow: 0 8px 25px rgba(236,72,153,0.5);
-    }
-    .filter-btn {
-      transition: all 0.3s ease;
-    }
 
     /* floating widgets */
     .back-to-top, .whatsapp-button, .dark-mode-toggle {
@@ -185,54 +173,9 @@
       transform: translateY(-6px);
     }
 
-    /* Testimonial card */
-    .testimonial-card {
-      background: linear-gradient(145deg, #11131a 0%, #0d0f14 100%);
-      border: 1px solid #1f2937;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .testimonial-card::before {
-      content: '"';
-      position: absolute;
-      top: -20px;
-      right: 20px;
-      font-size: 120px;
-      font-family: 'Playfair Display', serif;
-      color: rgba(236, 72, 153, 0.08);
-      line-height: 1;
-      pointer-events: none;
-    }
-    .testimonial-card:hover {
-      border-color: #ec4899;
-      box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.25);
-      transform: translateY(-5px);
-    }
-
-    .counter-value {
-      font-variant-numeric: tabular-nums;
-    }
-
     @media (max-width: 768px) {
       .whatsapp-popup { width: 260px; right: -10px; }
       .typing-text { white-space: normal; border-right: none; animation: none; }
-    }
-
-    /* Coming soon badge */
-    .coming-soon-badge {
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      color: white;
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      letter-spacing: 0.05em;
-      animation: pulse-badge 2s infinite;
-    }
-    @keyframes pulse-badge {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
     }
   </style>
 </head>
@@ -291,7 +234,6 @@
         <a href="#why-us" class="nav-link hover:text-white uppercase transition">Why Us</a>
         <a href="#core-services" class="nav-link hover:text-white uppercase transition">Services</a>
         <a href="#portfolio" class="nav-link hover:text-white uppercase transition">Portfolio</a>
-        <a href="#testimonials" class="nav-link hover:text-white uppercase transition">Feedback</a>
         <a href="#contact" class="nav-link hover:text-white uppercase transition">Contact</a>
       </nav>
       <div class="xl:hidden">
@@ -304,7 +246,6 @@
     <a href="#why-us" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">WHY US</a>
     <a href="#core-services" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">SERVICES</a>
     <a href="#portfolio" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">PORTFOLIO</a>
-    <a href="#testimonials" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">FEEDBACK</a>
     <a href="#contact" class="block px-4 py-3 rounded-lg text-sm font-semibold text-zinc-300 hover:bg-zinc-900">CONTACT</a>
   </div>
 </header>
@@ -340,7 +281,7 @@
   </div>
 </section>
 
-<!-- Industries We Serve (Realistic for new business) -->
+<!-- Industries We Serve -->
 <section class="py-16 border-b border-zinc-900 relative overflow-hidden" style="background: linear-gradient(180deg, #0d0e12 0%, #0b0c10 100%);">
   <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMSI+PHBhdGggZD0iTTM2IDE4YzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6TTI0IDQyYzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6TTQ4IDM2YzAtMS4xMDQtLjg5Ni0yLTItMnMtMiAuODk2LTIgMiAuODk2IDIgMiAyIDItLjg5NiAyLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -372,7 +313,7 @@
   </div>
 </section>
 
-<!-- Why Choose Us (Realistic) -->
+<!-- Why Choose Us -->
 <section id="why-us" class="py-24 relative border-b border-zinc-900" style="background: #0b0c10;">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
@@ -405,7 +346,7 @@
   </div>
 </section>
 
-<!-- Core Services (Focused on what you CAN do) -->
+<!-- Core Services -->
 <section id="core-services" class="py-24 relative border-b border-zinc-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-16">
@@ -441,7 +382,7 @@
   </div>
 </section>
 
-<!-- Portfolio (REAL projects only) -->
+<!-- Portfolio -->
 <section id="portfolio" class="py-24 bg-zinc-950/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12">
@@ -461,7 +402,7 @@
             <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">Completed</span>
           </div>
           <p class="text-zinc-400 text-sm leading-relaxed">Excel-based system with stock in/out tracking, automatic low-stock alerts, and monthly summary reports. Used by a small retail business.</p>
-          <div class="flex gap-2 mt-4">
+          <div class="flex gap-2 mt-4 flex-wrap">
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span>
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA Macro</span>
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Google Sheets</span>
@@ -480,7 +421,7 @@
             <span class="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">Completed</span>
           </div>
           <p class="text-zinc-400 text-sm leading-relaxed">Purchase order tracker with supplier database, approval status flow, and budget monitoring. Built for a construction material supplier.</p>
-          <div class="flex gap-2 mt-4">
+          <div class="flex gap-2 mt-4 flex-wrap">
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span>
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA</span>
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Python</span>
@@ -499,7 +440,7 @@
             <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">Ongoing</span>
           </div>
           <p class="text-zinc-400 text-sm leading-relaxed">Collection of automation scripts: auto-report generation, data cleaning macros, file organization tools. Built for various small business tasks.</p>
-          <div class="flex gap-2 mt-4">
+          <div class="flex gap-2 mt-4 flex-wrap">
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">VBA</span>
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Python</span>
             <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">Excel</span>
@@ -508,65 +449,9 @@
       </div>
     </div>
 
-    <!-- Upcoming projects hint -->
+    <!-- Upcoming projects -->
     <div class="text-center mt-12">
       <p class="text-zinc-500 text-sm italic">More projects in progress – dashboard development, system integration, and custom business applications coming soon. 🚀</p>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials / Feedback (Honest) -->
-<section id="testimonials" class="py-24 relative overflow-hidden" style="background: linear-gradient(180deg, #0b0c10 0%, #0d0e12 100%);">
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-pink-500/5 via-transparent to-transparent"></div>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="text-center mb-16">
-      <p class="text-xs font-bold uppercase tracking-[0.3em] text-[#ec4899] mb-3">💬 Early feedback</p>
-      <h2 class="text-3xl md:text-5xl font-serif text-white font-bold">What people <span class="text-[#ec4899]">are saying</span></h2>
-      <p class="text-zinc-400 mt-4 max-w-2xl mx-auto">Honest feedback from early projects. More testimonials coming as I complete more work.</p>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="testimonial-card p-8 rounded-2xl group">
-        <div class="flex items-center gap-1 mb-4">
-          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
-        </div>
-        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"The inventory system Syafiq built for my shop works perfectly. Now I can check stock anytime without manual counting. <strong class="text-white">Simple but very effective.</strong>"</p>
-        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">AR</div>
-          <div>
-            <p class="font-bold text-white text-sm">Retail Shop Owner</p>
-            <p class="text-zinc-500 text-xs">Johor Bahru</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card p-8 rounded-2xl group">
-        <div class="flex items-center gap-1 mb-4">
-          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
-        </div>
-        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"The Excel macro saved me hours every week. I used to manually compile reports – now it's <strong class="text-white">one click and done.</strong> Syafiq explained everything clearly."</p>
-        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-bold text-lg">SL</div>
-          <div>
-            <p class="font-bold text-white text-sm">Small Business Owner</p>
-            <p class="text-zinc-500 text-xs">Kuala Lumpur</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card p-8 rounded-2xl group">
-        <div class="flex items-center gap-1 mb-4">
-          <span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span><span class="text-yellow-400 text-lg">★</span>
-        </div>
-        <p class="text-zinc-300 leading-relaxed mb-6 relative z-10">"Needed a procurement tracker for my construction projects. Syafiq built exactly what I needed – <strong class="text-white">simple, clear, no confusion.</strong> Highly recommended for SMEs."</p>
-        <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg">TS</div>
-          <div>
-            <p class="font-bold text-white text-sm">Project Supervisor</p>
-            <p class="text-zinc-500 text-xs">Penang</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
