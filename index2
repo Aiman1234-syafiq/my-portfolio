@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BizFlow Systems • Automation & Digital Solutions for Malaysian SMEs</title>
+  <meta name="description" content="BizFlow Systems by Syafiq – helping Malaysian SMEs with inventory systems, procurement automation, Excel macros, Python scripts, and practical IT solutions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent: #FF4D1C;
+      --accent-alt: #FF8C42;
+      --bg: #080A0E;
+      --bg2: #0D0F14;
+      --bg3: #111318;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #F0EEE9;
+      --muted: rgba(240,238,233,0.45);
+      --card-hover: rgba(255,77,28,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    #loader {
+      position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.gone { opacity: 0; visibility: hidden; }
+    .loader-inner {
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    .loader-ring {
+      width: 56px; height: 56px; border: 2px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text {
+      font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.35;
+    }
+
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 48px; height: 80px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+    }
+    header.scrolled {
+      background: rgba(8,10,14,0.92);
+      border-color: var(--border);
+      backdrop-filter: blur(20px);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 44px; height: 44px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 15px; color: white;
+      clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 15% 100%, 0 85%);
+      transition: transform 0.3s;
+    }
+    .logo:hover .logo-mark { transform: rotate(5deg) scale(1.05); }
+    .logo-text {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 16px; color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .logo-text span { color: var(--accent); }
+    nav {
+      display: flex; align-items: center; gap: 40px;
+    }
+    nav a {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+      text-decoration: none; position: relative; transition: color 0.2s;
+    }
+    nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+      background: var(--accent); transition: width 0.3s;
+    }
+    nav a:hover { color: var(--text); }
+    nav a:hover::after { width: 100%; }
+    .nav-cta {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; color: white !important;
+      background: var(--accent); padding: 10px 24px;
+      clip-path: polygon(0 0, 90% 0, 100% 25%, 100% 100%, 10% 100%, 0 75%);
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { opacity: 0.85; color: white !important; }
+    .lang-pills {
+      display: flex; gap: 6px;
+    }
+    .lang-btn {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; padding: 5px 12px; border-radius: 20px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; transition: all 0.2s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--accent); border-color: var(--accent); color: white;
+    }
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 8px;
+    }
+    .mobile-menu-btn span {
+      display: block; width: 22px; height: 1.5px; background: var(--text);
+      margin: 5px 0; transition: all 0.3s;
+    }
+    .mobile-nav {
+      display: none; position: fixed; top: 80px; left: 0; right: 0;
+      background: rgba(8,10,14,0.98); border-bottom: 1px solid var(--border);
+      padding: 24px 32px; backdrop-filter: blur(20px); z-index: 99;
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav a {
+      display: block; padding: 14px 0; font-family: 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover { color: var(--text); }
+
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.4) grayscale(20%);
+    }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(8,10,14,0.85) 30%, rgba(8,10,14,0.6) 60%, rgba(255,77,28,0.15) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1400px; margin: 0 auto;
+      padding: 160px 64px 100px;
+      width: 100%;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 32px;
+      opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+    }
+    .hero-tag::before {
+      content: ''; width: 32px; height: 1px; background: var(--accent);
+    }
+    .hero-h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 110px);
+      line-height: 0.95; font-weight: 400;
+      color: var(--text); max-width: 900px;
+      opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-h1 em {
+      font-style: italic; color: var(--accent);
+    }
+    .hero-sub {
+      margin-top: 40px; max-width: 520px;
+      font-size: 16px; line-height: 1.7; color: var(--muted);
+      font-weight: 300;
+      opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; margin-top: 52px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 18px 40px; background: var(--accent); color: white;
+      font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+      clip-path: polygon(0 0, 92% 0, 100% 20%, 100% 100%, 8% 100%, 0 80%);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 17px 36px; border: 1px solid var(--border); color: var(--text);
+      font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(255,77,28,0.06); }
+    .hero-scroll {
+      position: absolute; bottom: 48px; left: 64px; z-index: 2;
+      display: flex; align-items: center; gap: 16px;
+      opacity: 0; animation: fadeUp 1s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 60px; height: 1px; background: var(--accent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100% { opacity:0.4; width: 40px; } 50% { opacity:1; width: 60px; } }
+    .scroll-text {
+      font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 600;
+      letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted);
+    }
+    .hero-float-card {
+      position: absolute; right: 64px; bottom: 80px; z-index: 2;
+      background: rgba(13,15,20,0.92); border: 1px solid var(--border);
+      backdrop-filter: blur(20px); padding: 28px 32px;
+      max-width: 340px;
+      opacity: 0; animation: fadeLeft 1s 1s forwards;
+    }
+    @keyframes fadeLeft {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .float-stat {
+      display: flex; gap: 32px; margin-bottom: 20px;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+      color: var(--accent); line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em;
+    }
+    .float-divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .float-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 14px; line-height: 1.6; color: var(--muted);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ticker-wrap {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--bg2); padding: 18px 0;
+      overflow: hidden; position: relative; z-index: 3;
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: marquee 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      flex-shrink: 0;
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted);
+      padding: 0 40px;
+    }
+    .ticker-dot {
+      color: var(--accent); padding: 0 10px;
+    }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    .section-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 64px;
+    }
+    .section-label {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+    }
+    .section-label::before {
+      content: ''; width: 24px; height: 1px; background: var(--accent);
+    }
+    .section-h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 4vw, 64px); line-height: 1.05;
+      font-weight: 400; color: var(--text);
+    }
+    .section-h2 em { font-style: italic; color: var(--accent); }
+
+    .about-section { padding: 140px 0; }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .about-img-wrap { position: relative; }
+    .about-img {
+      width: 100%; aspect-ratio: 4/5; object-fit: cover;
+      display: block; filter: grayscale(10%);
+    }
+    .about-img-accent {
+      position: absolute; bottom: -24px; right: -24px; z-index: -1;
+      width: 60%; height: 60%;
+      border: 2px solid var(--accent);
+    }
+    .about-img-tag {
+      position: absolute; top: 32px; left: -24px;
+      background: var(--accent); color: white;
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 12px 20px; writing-mode: vertical-rl; text-orientation: mixed;
+    }
+    .about-text p {
+      font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-tags {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+    }
+    .about-tag {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      border: 1px solid var(--border); padding: 8px 18px; color: var(--muted);
+      transition: all 0.2s;
+    }
+    .about-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    .industries-section { padding: 80px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .ind-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    }
+    .ind-item {
+      padding: 52px 40px; border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .ind-item:last-child { border-right: none; }
+    .ind-item:hover { background: var(--card-hover); }
+    .ind-num {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.2em; margin-bottom: 28px;
+    }
+    .ind-img {
+      width: 100%; height: 160px; object-fit: cover; margin-bottom: 24px;
+      filter: grayscale(10%); transition: filter 0.3s, transform 0.3s;
+    }
+    .ind-item:hover .ind-img { filter: grayscale(0); transform: scale(1.02); }
+    .ind-name {
+      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .ind-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .why-section { padding: 140px 0; background: var(--bg2); }
+    .why-grid {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start;
+      margin-top: 60px;
+    }
+    .why-sticky { position: sticky; top: 120px; }
+    .why-img {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover;
+      filter: grayscale(15%);
+    }
+    .why-img-caption {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+      margin-top: 16px;
+    }
+    .why-points { display: flex; flex-direction: column; gap: 0; }
+    .why-point {
+      padding: 40px 0; border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: 64px 1fr; gap: 32px;
+    }
+    .why-point:first-child { padding-top: 0; }
+    .why-num {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.1em; padding-top: 4px;
+    }
+    .why-title {
+      font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700;
+      color: var(--text); margin-bottom: 12px;
+    }
+    .why-body { font-size: 15px; line-height: 1.7; color: var(--muted); font-weight: 300; }
+
+    .services-section { padding: 140px 0; }
+    .services-head {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end;
+      margin-bottom: 80px;
+    }
+    .services-body-text {
+      font-size: 16px; line-height: 1.7; color: var(--muted); font-weight: 300;
+      max-width: 440px; margin-left: auto;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .service-card {
+      background: var(--bg2); padding: 48px 40px;
+      position: relative; overflow: hidden;
+      cursor: pointer; transition: background 0.3s;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .service-card:hover { background: var(--bg3); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .serv-icon { font-size: 36px; margin-bottom: 28px; display: block; }
+    .serv-num {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.3em; margin-bottom: 16px;
+    }
+    .serv-title {
+      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;
+      color: var(--text); margin-bottom: 14px; line-height: 1.3;
+    }
+    .serv-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+    .serv-arrow {
+      position: absolute; bottom: 32px; right: 32px;
+      width: 36px; height: 36px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 16px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .service-card:hover .serv-arrow { background: var(--accent); color: white; transform: translate(3px,-3px); }
+
+    .portfolio-section { padding: 140px 0; background: var(--bg2); }
+    .portfolio-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 60px;
+    }
+    .portfolio-link {
+      font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+      text-decoration: none; display: flex; align-items: center; gap: 10px;
+      transition: gap 0.2s;
+    }
+    .portfolio-link:hover { gap: 18px; }
+    .portfolio-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .port-card {
+      background: var(--bg3); overflow: hidden;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, transform 0.4s;
+    }
+    .port-card:hover { border-color: var(--accent); transform: translateY(-6px); }
+    .port-img-wrap { position: relative; overflow: hidden; }
+    .port-img {
+      width: 100%; aspect-ratio: 16/10; object-fit: cover;
+      transition: transform 0.6s, filter 0.4s;
+      filter: grayscale(10%);
+    }
+    .port-card:hover .port-img { transform: scale(1.06); filter: grayscale(0); }
+    .port-overlay {
+      position: absolute; inset: 0; background: rgba(8,10,14,0.5);
+      display: flex; align-items: flex-end; padding: 20px;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .port-card:hover .port-overlay { opacity: 1; }
+    .port-badge {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; padding: 6px 14px;
+      background: var(--accent); color: white;
+    }
+    .port-info { padding: 28px 28px 32px; }
+    .port-category {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .port-title {
+      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;
+      color: var(--text); margin-bottom: 12px; line-height: 1.3;
+    }
+    .port-desc { font-size: 13px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+    .port-tags {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px;
+    }
+    .port-tag {
+      font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      border: 1px solid var(--border); padding: 5px 12px; color: var(--muted);
+    }
+
+    .process-section { padding: 120px 0; border-top: 1px solid var(--border); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      margin-top: 64px;
+    }
+    .process-step { padding: 40px; border-right: 1px solid var(--border); position: relative; }
+    .process-step:last-child { border-right: none; }
+    .step-num {
+      font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800;
+      color: rgba(255,77,28,0.12); line-height: 1; margin-bottom: 24px;
+    }
+    .step-title {
+      font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+      color: var(--text); margin-bottom: 12px;
+    }
+    .step-desc { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+    .step-arrow {
+      position: absolute; top: 40px; right: -12px; z-index: 1;
+      width: 24px; height: 1px; background: var(--accent);
+    }
+    .step-arrow::after {
+      content: ''; position: absolute; right: 0; top: -3px;
+      border-top: 3px solid transparent; border-bottom: 3px solid transparent;
+      border-left: 6px solid var(--accent);
+    }
+    .process-step:last-child .step-arrow { display: none; }
+
+    .contact-section { padding: 140px 0; background: var(--bg2); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    }
+    .contact-details { margin-top: 48px; display: flex; flex-direction: column; gap: 28px; }
+    .contact-item { display: flex; gap: 20px; align-items: flex-start; }
+    .contact-item-icon {
+      width: 44px; height: 44px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .contact-item-label {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .contact-item-value { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .form-input {
+      width: 100%; background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px;
+      padding: 16px 20px; outline: none; transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: rgba(240,238,233,0.25); }
+    textarea.form-input { resize: vertical; min-height: 130px; }
+    .form-submit {
+      width: 100%; padding: 20px; background: var(--accent); color: white;
+      font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase; border: none; cursor: pointer;
+      clip-path: polygon(0 0, 95% 0, 100% 25%, 100% 100%, 5% 100%, 0 75%);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+    .map-embed {
+      width: 100%; height: 260px; border: 1px solid var(--border);
+      margin-top: 32px; overflow: hidden; filter: grayscale(40%) contrast(1.1);
+    }
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 52px 64px; position: relative; z-index: 2;
+    }
+    .footer-inner {
+      max-width: 1400px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+    }
+    .footer-left { display: flex; align-items: center; gap: 32px; }
+    .footer-copy {
+      font-family: 'Syne', sans-serif; font-size: 11px; color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+    .footer-accent { color: var(--accent); }
+    .footer-right {
+      font-family: 'Syne', sans-serif; font-size: 11px; color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .back-to-top {
+      position: fixed; bottom: 100px; right: 28px; z-index: 98;
+      width: 48px; height: 48px; background: var(--accent); color: white;
+      border: none; cursor: pointer; font-size: 18px;
+      clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: all 0.3s;
+      transform: translateY(10px);
+    }
+    .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { opacity: 0.85; }
+
+    .wa-widget { position: fixed; bottom: 28px; right: 28px; z-index: 98; }
+    .wa-btn {
+      width: 60px; height: 60px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+      animation: waPulse 2.5s ease-in-out infinite;
+      transition: transform 0.2s;
+    }
+    .wa-btn:hover { transform: scale(1.1); }
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 8px 32px rgba(37,211,102,0.35); }
+      50% { box-shadow: 0 8px 40px rgba(37,211,102,0.6), 0 0 0 12px rgba(37,211,102,0.08); }
+    }
+    .wa-btn svg { width: 30px; height: 30px; fill: white; }
+    .wa-popup {
+      position: absolute; bottom: 76px; right: 0;
+      background: white; border-radius: 16px; padding: 20px;
+      width: 290px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .wa-popup.open { display: block; animation: popIn 0.3s ease; }
+    @keyframes popIn { from { opacity:0; transform: translateY(12px) scale(0.96); } to { opacity:1; transform: none; } }
+    .wa-popup-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .wa-avatar {
+      width: 44px; height: 44px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wa-avatar svg { width: 22px; height: 22px; fill: white; }
+    .wa-popup-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #111; }
+    .wa-popup-status { font-size: 11px; color: #25D366; margin-top: 2px; }
+    .wa-popup-divider { height: 1px; background: #f0f0f0; margin: 14px 0; }
+    .wa-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px; text-decoration: none;
+      color: #333; font-size: 13px; transition: background 0.15s;
+    }
+    .wa-option:hover { background: #f5f5f5; }
+    .wa-option-icon { font-size: 16px; }
+
+    .dm-toggle {
+      position: fixed; bottom: 28px; left: 28px; z-index: 98;
+      width: 48px; height: 48px; background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; transition: background 0.2s;
+    }
+    .dm-toggle:hover { background: var(--surface); }
+
+    .color-palette {
+      position: fixed; bottom: 28px; left: 90px; z-index: 98;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 30px; padding: 10px 18px;
+      display: flex; gap: 10px; align-items: center;
+    }
+    .color-dot {
+      width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+      border: 2px solid transparent; transition: transform 0.2s, border-color 0.2s;
+    }
+    .color-dot:hover { transform: scale(1.2); }
+    .color-dot.active { border-color: white; box-shadow: 0 0 0 2px var(--bg3); }
+
+    body.light {
+      --bg: #F5F3EE; --bg2: #EEECE7; --bg3: #E8E5DF;
+      --surface: rgba(0,0,0,0.03);
+      --border: rgba(0,0,0,0.1);
+      --text: #0A0B0E; --muted: rgba(10,11,14,0.55);
+      --card-hover: rgba(255,77,28,0.04);
+    }
+    body.light header.scrolled { background: rgba(245,243,238,0.92); }
+
+    @media (max-width: 1200px) {
+      .section-inner { padding: 0 40px; }
+      header { padding: 0 40px; }
+      .hero-content { padding: 140px 40px 80px; }
+      .hero-float-card { right: 40px; bottom: 60px; }
+      footer { padding: 48px 40px; }
+    }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .mobile-menu-btn { display: block; }
+      header { padding: 0 24px; }
+      .section-inner { padding: 0 24px; }
+      .hero-content { padding: 120px 24px 200px; }
+      .hero-float-card { position: relative; right: auto; bottom: auto; margin: 32px 24px 0; max-width: 100%; }
+      .hero-scroll { left: 24px; bottom: 24px; }
+      .about-grid, .why-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .services-head { grid-template-columns: 1fr; gap: 24px; }
+      .services-body-text { margin-left: 0; max-width: 100%; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .ind-grid { grid-template-columns: 1fr 1fr; }
+      .ind-item:nth-child(2) { border-right: none; }
+      .ind-item:nth-child(3) { border-right: 1px solid var(--border); }
+      .ind-item:nth-child(4) { border-right: none; }
+      .ind-item:nth-child(3), .ind-item:nth-child(4) { border-top: 1px solid var(--border); }
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-step { border-bottom: 1px solid var(--border); }
+      .process-step:nth-child(2) { border-right: none; }
+      .step-arrow { display: none; }
+      footer { padding: 36px 24px; }
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+      .color-palette { left: 84px; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .ind-grid { grid-template-columns: 1fr; }
+      .ind-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .lang-pills { display: none; }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-inner"><div class="loader-ring"></div><p class="loader-text">BizFlow Systems</p></div></div>
+<button class="dm-toggle" id="dmToggle">🌙</button>
+<div class="color-palette"><div class="color-dot active" data-color="#FF4D1C" style="background:#FF4D1C"></div><div class="color-dot" data-color="#3B82F6" style="background:#3B82F6"></div><div class="color-dot" data-color="#10B981" style="background:#10B981"></div><div class="color-dot" data-color="#A855F7" style="background:#A855F7"></div><div class="color-dot" data-color="#F59E0B" style="background:#F59E0B"></div></div>
+<button class="back-to-top" id="backToTop">↑</button>
+<div class="wa-widget"><div class="wa-popup" id="waPopup"><div class="wa-popup-head"><div class="wa-avatar"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div><div><div class="wa-popup-name" id="waName">Chat with Syafiq</div><div class="wa-popup-status">● Online now</div></div></div><div class="wa-popup-divider"></div><a href="https://wa.me/601162960387?text=Hi%20Syafiq%2C%20I%27m%20interested%20in%20your%20services" target="_blank" class="wa-option"><span class="wa-option-icon">⚡</span><span id="waOpt1">General inquiry</span></a><a href="https://wa.me/601162960387?text=Hi%2C%20I%20need%20an%20inventory%20or%20procurement%20system" target="_blank" class="wa-option"><span class="wa-option-icon">📦</span><span id="waOpt2">Inventory / Procurement</span></a><a href="https://wa.me/601162960387?text=Hi%2C%20need%20Excel%20macro%20or%20Python%20automation" target="_blank" class="wa-option"><span class="wa-option-icon">🐍</span><span id="waOpt3">Macro / Python</span></a></div><div class="wa-btn" id="waBtn"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div></div>
+
+<header id="header"><a href="#" class="logo"><div class="logo-mark">BF</div><span class="logo-text">Biz<span>Flow</span></span></a><div class="lang-pills"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="ms">BM</button><button class="lang-btn" data-lang="zh">中文</button></div><nav><a href="#home" data-i18n="nav-home">Home</a><a href="#why-us" data-i18n="nav-why">Why Us</a><a href="#services" data-i18n="nav-services">Services</a><a href="#portfolio" data-i18n="nav-portfolio">Portfolio</a><a href="#contact" class="nav-cta" data-i18n="nav-contact">Contact</a></nav><button class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></button></header><div class="mobile-nav" id="mobileNav"><a href="#home" data-i18n="nav-home">Home</a><a href="#why-us" data-i18n="nav-why">Why Us</a><a href="#services" data-i18n="nav-services">Services</a><a href="#portfolio" data-i18n="nav-portfolio">Portfolio</a><a href="#contact" data-i18n="nav-contact">Contact</a></div>
+
+<!-- HERO SECTION with stunning image -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80" alt="Hero background - modern workspace"/>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag" data-i18n="hero-tag">Johor Bahru · Malaysia · Est. 2026</div>
+    <h1 class="hero-h1" data-i18n="hero-h1">Practical IT<br><em>Automation</em><br>for SMEs</h1>
+    <p class="hero-sub" data-i18n="hero-sub">I'm Syafiq — I build real tools for Malaysian SMEs: inventory systems, procurement workflows, Excel macros & Python automation. No fluff, just results.</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary" data-i18n="hero-btn1">Explore services →</a>
+      <a href="#contact" class="btn-outline" data-i18n="hero-btn2">Let's talk</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll to explore</span>
+    </div>
+    <div class="hero-float-card">
+      <div class="float-stat">
+        <div class="stat-item"><div class="stat-num">3+</div><div class="stat-label">Projects done</div></div>
+        <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Industries</div></div>
+        <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Direct support</div></div>
+      </div>
+      <div class="float-divider"></div>
+      <p class="float-quote">"Tools that actually work for your business — not enterprise bloatware."</p>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap"><div class="ticker-track" id="ticker"><span class="ticker-item">Inventory Systems</span><span class="ticker-dot">✦</span><span class="ticker-item">Excel Macro Automation</span><span class="ticker-dot">✦</span><span class="ticker-item">Python Scripts</span><span class="ticker-dot">✦</span><span class="ticker-item">Procurement Workflows</span><span class="ticker-dot">✦</span><span class="ticker-item">Business Dashboards</span><span class="ticker-dot">✦</span><span class="ticker-item">SME IT Solutions</span><span class="ticker-dot">✦</span><span class="ticker-item">Johor Bahru · Malaysia</span><span class="ticker-dot">✦</span><span class="ticker-item">Inventory Systems</span><span class="ticker-dot">✦</span><span class="ticker-item">Excel Macro Automation</span><span class="ticker-dot">✦</span><span class="ticker-item">Python Scripts</span><span class="ticker-dot">✦</span><span class="ticker-item">Procurement Workflows</span><span class="ticker-dot">✦</span><span class="ticker-item">Business Dashboards</span><span class="ticker-dot">✦</span><span class="ticker-item">SME IT Solutions</span><span class="ticker-dot">✦</span><span class="ticker-item">Johor Bahru · Malaysia</span><span class="ticker-dot">✦</span></div></div>
+
+<!-- ABOUT SECTION -->
+<section class="about-section" id="about"><div class="section-inner"><div class="about-grid"><div class="about-img-wrap reveal"><img class="about-img" src="https://images.unsplash.com/photo-1516321165247-4aa89a48be28?w=800&h=1000&fit=crop" alt="Developer working on automation"/><div class="about-img-accent"></div><div class="about-img-tag">BizFlow<br>Systems</div></div><div class="about-text reveal reveal-delay-2"><div class="section-label" data-i18n="about-label">About</div><h2 class="section-h2" data-i18n="about-h2">Building tools that <em>actually work</em></h2><br><p data-i18n="about-p1">I'm <strong>Syafiq</strong>, an IT solutions builder based in Johor Bahru. I specialize in creating practical automation tools and systems for Malaysian SMEs — the kind of businesses that need real solutions, not expensive enterprise software.</p><p data-i18n="about-p2">My focus is on <strong>Excel-based systems, VBA macros, Python automation, and inventory/procurement workflows</strong> that are easy to use and actually solve your day-to-day problems.</p><p data-i18n="about-p3">I'm building my portfolio, which means <strong>competitive rates, personal attention, and genuine commitment</strong> to delivering results that you'll actually use.</p><div class="about-tags"><span class="about-tag">Excel / VBA</span><span class="about-tag">Python</span><span class="about-tag">Google Sheets</span><span class="about-tag">Inventory Systems</span><span class="about-tag">Procurement</span><span class="about-tag">Automation</span></div></div></div></div></section>
+
+<!-- INDUSTRIES with stunning images -->
+<section class="industries-section"><div class="section-inner"><div class="ind-grid"><div class="ind-item reveal"><div class="ind-num">01</div><img class="ind-img" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop" alt="Retail store"/><div class="ind-name" data-i18n="ind1">Retail & Wholesale</div><div class="ind-desc" data-i18n="ind1-desc">Inventory tracking, sales reports, stock alerts</div></div><div class="ind-item reveal reveal-delay-1"><div class="ind-num">02</div><img class="ind-img" src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&h=400&fit=crop" alt="Restaurant kitchen"/><div class="ind-name" data-i18n="ind2">F&B / Restaurants</div><div class="ind-desc" data-i18n="ind2-desc">Stock management, cost tracking, ordering</div></div><div class="ind-item reveal reveal-delay-2"><div class="ind-num">03</div><img class="ind-img" src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop" alt="Construction site"/><div class="ind-name" data-i18n="ind3">Construction</div><div class="ind-desc" data-i18n="ind3-desc">Material tracking, procurement workflows</div></div><div class="ind-item reveal reveal-delay-3"><div class="ind-num">04</div><img class="ind-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop" alt="Logistics warehouse"/><div class="ind-name" data-i18n="ind4">Logistics</div><div class="ind-desc" data-i18n="ind4-desc">Delivery tracking, basic dispatch systems</div></div></div></div></section>
+
+<!-- WHY US with stunning image -->
+<section class="why-section" id="why-us"><div class="section-inner"><div class="section-label reveal" data-i18n="why-label">Why Choose Me</div><h2 class="section-h2 reveal" data-i18n="why-h2">Committed, fast,<br>and <em>genuinely invested</em></h2><div class="why-grid"><div class="why-sticky reveal"><img class="why-img" src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=700&h=900&fit=crop" alt="Developer workspace"/><p class="why-img-caption" data-i18n="why-img-cap">Syafiq · BizFlow Systems · JB</p></div><div class="why-points"><div class="why-point reveal"><div class="why-num">01</div><div><div class="why-title" data-i18n="why1">One-on-One Attention</div><div class="why-body" data-i18n="why1-body">You deal directly with me — Syafiq. No middlemen, no account managers, no runaround. Every email and message gets my personal response. Your project gets my full undivided focus from start to finish.</div></div></div><div class="why-point reveal reveal-delay-1"><div class="why-num">02</div><div><div class="why-title" data-i18n="why2">Affordable & Fair Pricing</div><div class="why-body" data-i18n="why2-body">I'm building my portfolio, so my rates are deliberately reasonable. You get quality, functional work without the enterprise price tag. The value I deliver should speak for itself — not the invoice.</div></div></div><div class="why-point reveal reveal-delay-2"><div class="why-num">03</div><div><div class="why-title" data-i18n="why3">Eager to Prove Results</div><div class="why-body" data-i18n="why3-body">Every project is a chance to build my reputation. I go the extra mile because your success becomes my portfolio. When the tool I build saves you 10 hours a week, that's the proof that matters.</div></div></div><div class="why-point reveal reveal-delay-3"><div class="why-num">04</div><div><div class="why-title" data-i18n="why4">Practical Over Fancy</div><div class="why-body" data-i18n="why4-body">I don't sell you solutions you don't need. I start by understanding how your business actually works, then build the simplest possible system that solves your real problem.</div></div></div></div></div></div></section>
+
+<!-- SERVICES SECTION -->
+<section class="services-section" id="services"><div class="section-inner"><div class="services-head"><div><div class="section-label reveal" data-i18n="serv-label">Services</div><h2 class="section-h2 reveal" data-i18n="serv-h2">What I can<br>build for you</h2></div><p class="services-body-text reveal" data-i18n="serv-body">Practical, working solutions — nothing theoretical, nothing overengineered. Every tool I build is meant to be used by real people in real businesses.</p></div><div class="services-grid"><div class="service-card reveal"><span class="serv-icon">📦</span><div class="serv-num">S — 01</div><div class="serv-title" data-i18n="s1">Inventory Management System</div><div class="serv-desc" data-i18n="s1-d">Track stock in/out, low-stock alerts, and basic reporting. Built with Excel or Google Sheets plus smart automation macros.</div><div class="serv-arrow">→</div></div><div class="service-card reveal reveal-delay-1"><span class="serv-icon">📋</span><div class="serv-num">S — 02</div><div class="serv-title" data-i18n="s2">Procurement / Purchasing System</div><div class="serv-desc" data-i18n="s2-d">Manage purchase orders, supplier lists, and approval flows. From manual tracking to a clean semi-automated workflow.</div><div class="serv-arrow">→</div></div><div class="service-card reveal reveal-delay-2"><span class="serv-icon">⚡</span><div class="serv-num">S — 03</div><div class="serv-title" data-i18n="s3">Excel Macro Automation</div><div class="serv-desc" data-i18n="s3-d">Turn repetitive Excel tasks into one-click macros. Data cleaning, report generation, formatting — all automated with VBA.</div><div class="serv-arrow">→</div></div><div class="service-card reveal"><span class="serv-icon">🐍</span><div class="serv-num">S — 04</div><div class="serv-title" data-i18n="s4">Python Script Automation</div><div class="serv-desc" data-i18n="s4-d">Data processing, file management, web scraping, and automated reports — Python scripts that save hours of manual work every week.</div><div class="serv-arrow">→</div></div><div class="service-card reveal reveal-delay-1"><span class="serv-icon">📊</span><div class="serv-num">S — 05</div><div class="serv-title" data-i18n="s5">Business Dashboard</div><div class="serv-desc" data-i18n="s5-d">Simple visual dashboards using Excel or Google Sheets. See your key numbers — sales, stock, costs — at a single glance.</div><div class="serv-arrow">→</div></div><div class="service-card reveal reveal-delay-2"><span class="serv-icon">🔧</span><div class="serv-num">S — 06</div><div class="serv-title" data-i18n="s6">Workflow Improvement</div><div class="serv-desc" data-i18n="s6-d">Analyze your current process, identify bottlenecks, and build a better system step by step. No jargon, just clear improvements.</div><div class="serv-arrow">→</div></div></div></div></section>
+
+<!-- PORTFOLIO with stunning images -->
+<section class="portfolio-section" id="portfolio"><div class="section-inner"><div class="portfolio-head reveal"><div><div class="section-label" data-i18n="port-label">Portfolio</div><h2 class="section-h2" data-i18n="port-h2">Work <em>done</em></h2></div><a href="#contact" class="portfolio-link" data-i18n="port-cta">Start a project →</a></div><div class="portfolio-grid"><div class="port-card reveal"><div class="port-img-wrap"><img class="port-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&h=440&fit=crop" alt="Excel dashboard"/><div class="port-overlay"><span class="port-badge" data-i18n="completed">Completed</span></div></div><div class="port-info"><div class="port-category" data-i18n="port1-cat">Excel · VBA · Automation</div><div class="port-title" data-i18n="port1-title">Inventory Management System</div><div class="port-desc" data-i18n="port1-desc">Excel-based system with stock in/out tracking, automatic low-stock alerts, and monthly summary reports. Deployed for a small retail business in JB.</div><div class="port-tags"><span class="port-tag">Excel</span><span class="port-tag">VBA Macro</span><span class="port-tag">Google Sheets</span></div></div></div><div class="port-card reveal reveal-delay-1"><div class="port-img-wrap"><img class="port-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&h=440&fit=crop" alt="Procurement system"/><div class="port-overlay"><span class="port-badge" data-i18n="completed">Completed</span></div></div><div class="port-info"><div class="port-category" data-i18n="port2-cat">Excel · VBA · Python</div><div class="port-title" data-i18n="port2-title">Procurement Workflow System</div><div class="port-desc" data-i18n="port2-desc">Purchase order tracker with supplier database, approval status flow, and budget monitoring. Built for a construction material supplier.</div><div class="port-tags"><span class="port-tag">Excel</span><span class="port-tag">VBA</span><span class="port-tag">Python</span></div></div></div><div class="port-card reveal reveal-delay-2"><div class="port-img-wrap"><img class="port-img" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=700&h=440&fit=crop" alt="Python coding"/><div class="port-overlay"><span class="port-badge" data-i18n="ongoing">Ongoing</span></div></div><div class="port-info"><div class="port-category" data-i18n="port3-cat">Python · VBA · Excel</div><div class="port-title" data-i18n="port3-title">Automation Script Collection</div><div class="port-desc" data-i18n="port3-desc">Collection of automation scripts: auto-report generation, data cleaning macros, file organization tools. Built for various small business tasks.</div><div class="port-tags"><span class="port-tag">VBA</span><span class="port-tag">Python</span><span class="port-tag">Automation</span></div></div></div></div></div></section>
+
+<!-- PROCESS SECTION -->
+<section class="process-section"><div class="section-inner"><div class="section-label reveal" data-i18n="proc-label">How it works</div><h2 class="section-h2 reveal" data-i18n="proc-h2">Simple <em>process,</em><br>real results</h2><div class="process-steps"><div class="process-step reveal"><div class="step-num">01</div><div class="step-title" data-i18n="proc1">Understand</div><div class="step-desc" data-i18n="proc1-d">We talk about your workflow, pain points, and what you actually need — no pushy sales pitch.</div><div class="step-arrow"></div></div><div class="process-step reveal reveal-delay-1"><div class="step-num">02</div><div class="step-title" data-i18n="proc2">Propose</div><div class="step-desc" data-i18n="proc2-d">I propose the simplest solution that solves your problem. Clear scope, honest timeline, fair price.</div><div class="step-arrow"></div></div><div class="process-step reveal reveal-delay-2"><div class="step-num">03</div><div class="step-title" data-i18n="proc3">Build</div><div class="step-desc" data-i18n="proc3-d">I build the system with regular updates. You review along the way so there are no surprises at the end.</div><div class="step-arrow"></div></div><div class="process-step reveal reveal-delay-3"><div class="step-num">04</div><div class="step-title" data-i18n="proc4">Deliver & Support</div><div class="step-desc" data-i18n="proc4-d">I hand over a working tool with clear documentation and stay available for questions and adjustments.</div></div></div></div></section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section" id="contact"><div class="section-inner"><div class="section-label reveal" data-i18n="cont-label">Get in touch</div><h2 class="section-h2 reveal" style="margin-bottom: 60px;" data-i18n="cont-h2">Let's discuss<br>your <em>project</em></h2><div class="contact-grid"><div class="contact-left reveal"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&h=200&fit=crop" alt="Office building" style="width:100%;height:200px;object-fit:cover;margin-bottom:32px;"/><div class="contact-details"><div class="contact-item"><div class="contact-item-icon">📍</div><div><div class="contact-item-label" data-i18n="cont-loc-label">Location</div><div class="contact-item-value" data-i18n="cont-loc">Century Garden, Johor Bahru, Malaysia</div></div></div><div class="contact-item"><div class="contact-item-icon">📧</div><div><div class="contact-item-label">Email</div><div class="contact-item-value">mohamadaimansyafiq2026@gmail.com</div></div></div><div class="contact-item"><div class="contact-item-icon">📱</div><div><div class="contact-item-label">WhatsApp</div><div class="contact-item-value">011-62960387</div></div></div><div class="contact-item"><div class="contact-item-icon">🕐</div><div><div class="contact-item-label" data-i18n="cont-hrs-label">Hours</div><div class="contact-item-value" data-i18n="cont-hrs">Mon – Sun · 9:00 AM – 5:00 PM</div></div></div></div><div class="map-embed" id="map"></div></div><div class="contact-form reveal reveal-delay-2"><form action="https://formsubmit.co/mohamadaimansyafiq2026@gmail.com" method="POST"><input type="hidden" name="_captcha" value="false" /><input type="hidden" name="_template" value="table" /><div class="form-group"><label class="form-label" data-i18n="form-name-label">Your Name</label><input type="text" name="name" required class="form-input" data-i18n-placeholder="form-name-ph" placeholder="Muhammad Ali" /></div><div class="form-group"><label class="form-label" data-i18n="form-email-label">Email Address</label><input type="email" name="email" required class="form-input" data-i18n-placeholder="form-email-ph" placeholder="ali@company.com" /></div><div class="form-group"><label class="form-label" data-i18n="form-phone-label">Phone / WhatsApp</label><input type="text" name="phone" class="form-input" placeholder="+60 1X-XXXXXXX" /></div><div class="form-group"><label class="form-label" data-i18n="form-msg-label">Tell me about your project</label><textarea name="message" required class="form-input" rows="5" data-i18n-placeholder="form-msg-ph" placeholder="Describe your current process and what problem you're trying to solve..."></textarea></div><button type="submit" class="form-submit" data-i18n="form-submit">Send Message →</button></form></div></div></div></section>
+
+<footer><div class="footer-inner"><div class="footer-left"><a href="#" class="logo" style="text-decoration:none;"><div class="logo-mark" style="width:36px;height:36px;font-size:12px;">BF</div><span class="logo-text" style="font-size:14px;">Biz<span>Flow</span></span></a><p class="footer-copy">© 2026 BizFlow Systems by <span class="footer-accent">Syafiq</span>. All rights reserved.</p></div><p class="footer-right">Century Garden · Johor Bahru · Malaysia</p></div></footer>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  window.addEventListener('load', () => { setTimeout(() => { document.getElementById('loader').classList.add('gone'); }, 600); });
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 60); document.getElementById('backToTop').classList.toggle('show', window.scrollY > 400); });
+  document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const mBtn = document.getElementById('mobileMenuBtn'), mNav = document.getElementById('mobileNav');
+  mBtn.addEventListener('click', () => mNav.classList.toggle('open'));
+  mNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mNav.classList.remove('open')));
+  const waBtn = document.getElementById('waBtn'), waPopup = document.getElementById('waPopup');
+  waBtn.addEventListener('click', (e) => { e.stopPropagation(); waPopup.classList.toggle('open'); });
+  document.addEventListener('click', (e) => { if (!waPopup.contains(e.target) && !waBtn.contains(e.target)) waPopup.classList.remove('open'); });
+  const dmBtn = document.getElementById('dmToggle'); let isLight = false;
+  dmBtn.addEventListener('click', () => { isLight = !isLight; document.body.classList.toggle('light', isLight); dmBtn.textContent = isLight ? '🌙' : '☀️'; });
+  const colorDots = document.querySelectorAll('.color-dot');
+  function setAccent(color) { document.documentElement.style.setProperty('--accent', color); colorDots.forEach(d => d.classList.toggle('active', d.dataset.color === color)); localStorage.setItem('bfcolor', color); }
+  colorDots.forEach(d => d.addEventListener('click', () => setAccent(d.dataset.color)));
+  if(localStorage.getItem('bfcolor')) setAccent(localStorage.getItem('bfcolor'));
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('in'); observer.unobserve(entry.target); } }); }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+  const mapEl = document.getElementById('map');
+  if(mapEl && typeof L !== 'undefined'){ const map = L.map(mapEl, { zoomControl: false }).setView([1.4885, 103.7615], 14); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap © CartoDB' }).addTo(map); L.marker([1.4885, 103.7615]).bindPopup('<b>BizFlow Systems</b><br>Century Garden, JB').openPopup(); }
+  const translations = {
+    en:{ "nav-home":"Home","nav-why":"Why Us","nav-services":"Services","nav-portfolio":"Portfolio","nav-contact":"Contact","hero-tag":"Johor Bahru · Malaysia · Est. 2026","hero-h1":"Practical IT<br><em>Automation</em><br>for SMEs","hero-sub":"I'm Syafiq — I build real tools for Malaysian SMEs: inventory systems, procurement workflows, Excel macros & Python automation. No fluff, just results.","hero-btn1":"Explore services →","hero-btn2":"Let's talk","about-label":"About","about-h2":"Building tools that <em>actually work</em>","about-p1":"I'm <strong>Syafiq</strong>, an IT solutions builder based in Johor Bahru. I specialize in creating practical automation tools and systems for Malaysian SMEs — the kind of businesses that need real solutions, not expensive enterprise software.","about-p2":"My focus is on <strong>Excel-based systems, VBA macros, Python automation, and inventory/procurement workflows</strong> that are easy to use and actually solve your day-to-day problems.","about-p3":"I'm building my portfolio, which means <strong>competitive rates, personal attention, and genuine commitment</strong> to delivering results that you'll actually use.","ind1":"Retail & Wholesale","ind1-desc":"Inventory tracking, sales reports, stock alerts","ind2":"F&B / Restaurants","ind2-desc":"Stock management, cost tracking, ordering","ind3":"Construction","ind3-desc":"Material tracking, procurement workflows","ind4":"Logistics","ind4-desc":"Delivery tracking, basic dispatch systems","why-label":"Why Choose Me","why-h2":"Committed, fast,<br>and <em>genuinely invested</em>","why-img-cap":"Syafiq · BizFlow Systems · JB","why1":"One-on-One Attention","why1-body":"You deal directly with me — Syafiq. No middlemen, no account managers, no runaround. Your project gets my full undivided focus from start to finish.","why2":"Affordable & Fair Pricing","why2-body":"I'm building my portfolio, so my rates are deliberately reasonable. You get quality, functional work without the enterprise price tag.","why3":"Eager to Prove Results","why3-body":"Every project is a chance to build my reputation. I go the extra mile because your success becomes my portfolio.","why4":"Practical Over Fancy","why4-body":"I don't sell you solutions you don't need. I start by understanding how your business actually works, then build the simplest possible system that solves your real problem.","serv-label":"Services","serv-h2":"What I can<br>build for you","serv-body":"Practical, working solutions — nothing theoretical, nothing overengineered.","s1":"Inventory Management System","s1-d":"Track stock in/out, low-stock alerts, and basic reporting. Built with Excel or Google Sheets plus smart automation macros.","s2":"Procurement / Purchasing System","s2-d":"Manage purchase orders, supplier lists, and approval flows. From manual tracking to a clean semi-automated workflow.","s3":"Excel Macro Automation","s3-d":"Turn repetitive Excel tasks into one-click macros. Data cleaning, report generation, formatting — all automated with VBA.","s4":"Python Script Automation","s4-d":"Data processing, file management, web scraping, and automated reports — Python scripts that save hours of manual work.","s5":"Business Dashboard","s5-d":"Simple visual dashboards using Excel or Google Sheets. See your key numbers at a single glance.","s6":"Workflow Improvement","s6-d":"Analyze your current process, identify bottlenecks, and build a better system step by step.","port-label":"Portfolio","port-h2":"Work <em>done</em>","port-cta":"Start a project →","completed":"Completed","ongoing":"Ongoing","port1-cat":"Excel · VBA · Automation","port1-title":"Inventory Management System","port1-desc":"Excel-based system with stock in/out tracking, automatic low-stock alerts, and monthly summary reports.","port2-cat":"Excel · VBA · Python","port2-title":"Procurement Workflow System","port2-desc":"Purchase order tracker with supplier database, approval status flow, and budget monitoring.","port3-cat":"Python · VBA · Excel","port3-title":"Automation Script Collection","port3-desc":"Collection of automation scripts: auto-report generation, data cleaning macros, file organization tools.","proc-label":"How it works","proc-h2":"Simple <em>process,</em><br>real results","proc1":"Understand","proc1-d":"We talk about your workflow, pain points, and what you actually need.","proc2":"Propose","proc2-d":"I propose the simplest solution that solves your problem. Clear scope, honest timeline, fair price.","proc3":"Build","proc3-d":"I build the system with regular updates. You review along the way so there are no surprises.","proc4":"Deliver & Support","proc4-d":"I hand over a working tool with clear documentation and stay available for questions.","cont-label":"Get in touch","cont-h2":"Let's discuss<br>your <em>project</em>","cont-loc-label":"Location","cont-loc":"Century Garden, Johor Bahru, Malaysia","cont-hrs-label":"Hours","cont-hrs":"Mon – Sun · 9:00 AM – 5:00 PM","form-name-label":"Your Name","form-name-ph":"Muhammad Ali","form-email-label":"Email Address","form-email-ph":"ali@company.com","form-phone-label":"Phone / WhatsApp","form-msg-label":"Tell me about your project","form-msg-ph":"Describe your current process...","form-submit":"Send Message →"},
+    ms:{ "nav-home":"Utama","nav-why":"Kenapa Kami","nav-services":"Perkhidmatan","nav-portfolio":"Portfolio","nav-contact":"Hubungi","hero-tag":"Johor Bahru · Malaysia · Est. 2026","hero-h1":"Penyelesaian IT<br><em>Praktikal</em><br>untuk PKS","hero-sub":"Saya Syafiq — saya bina alat sebenar untuk PKS Malaysia: sistem inventori, aliran perolehan, makro Excel & automasi Python.","hero-btn1":"Lihat perkhidmatan →","hero-btn2":"Mari berbincang","about-label":"Tentang","about-h2":"Membina alat yang <em>benar-benar berkesan</em>","about-p1":"Saya <strong>Syafiq</strong>, pembina penyelesaian IT di Johor Bahru.","about-p2":"Fokus saya adalah pada <strong>sistem Excel, makro VBA, automasi Python</strong>.","about-p3":"Saya sedang membina portfolio, bermakna <strong>kadar bersaing, perhatian peribadi</strong>.","ind1":"Runcit & Borong","ind1-desc":"Penjejakan inventori, laporan jualan","ind2":"Makanan & Minuman","ind2-desc":"Pengurusan stok","ind3":"Pembinaan","ind3-desc":"Penjejakan bahan","ind4":"Logistik","ind4-desc":"Penjejakan penghantaran","why-label":"Kenapa Pilih Saya","why-h2":"Komited, pantas,<br>dan <em>sungguh-sungguh peduli</em>","why-img-cap":"Syafiq · BizFlow Systems · JB","why1":"Perhatian Penuh","why1-body":"Anda berurusan terus dengan saya — Syafiq. Tiada orang tengah.","why2":"Harga Berpatutan","why2-body":"Kadar saya munasabah. Kerja berkualiti tanpa harga enterprise.","why3":"Bersungguh Buktikan Hasil","why3-body":"Setiap projek peluang membina reputasi saya.","why4":"Praktikal Bukan Mewah","why4-body":"Saya bina sistem paling mudah yang menyelesaikan masalah sebenar.","serv-label":"Perkhidmatan","serv-h2":"Apa yang boleh<br>saya bina untuk anda","serv-body":"Penyelesaian praktikal yang berfungsi.","s1":"Sistem Inventori","s1-d":"Jejak stok, amaran stok rendah.","s2":"Sistem Perolehan","s2-d":"Urus pesanan pembelian.","s3":"Automasi Makro Excel","s3-d":"Tukar tugas manual kepada makro.","s4":"Automasi Skrip Python","s4-d":"Pemprosesan data automatik.","s5":"Dashboard Perniagaan","s5-d":"Dashboard visual ringkas.","s6":"Penambahbaikan Aliran Kerja","s6-d":"Analisis dan bina sistem lebih baik.","port-label":"Portfolio","port-h2":"Kerja <em>siap</em>","port-cta":"Mulakan projek →","completed":"Selesai","ongoing":"Sedang Berjalan","port1-cat":"Excel · VBA · Automasi","port1-title":"Sistem Inventori","port1-desc":"Sistem berasaskan Excel dengan penjejakan stok.","port2-cat":"Excel · VBA · Python","port2-title":"Sistem Perolehan","port2-desc":"Penjejak pesanan pembelian.","port3-cat":"Python · VBA · Excel","port3-title":"Koleksi Skrip Automasi","port3-desc":"Skrip automasi untuk pelbagai tugas.","proc-label":"Cara kerja","proc-h2":"Proses <em>mudah,</em><br>hasil nyata","proc1":"Fahami","proc1-d":"Kita bincang aliran kerja anda.","proc2":"Cadang","proc2-d":"Saya cadang penyelesaian paling mudah.","proc3":"Bina","proc3-d":"Saya bina sistem dengan kemaskini berkala.","proc4":"Serah & Sokong","proc4-d":"Saya serah alat berfungsi dan sokongan.","cont-label":"Hubungi","cont-h2":"Bincangkan<br>projek <em>anda</em>","cont-loc-label":"Lokasi","cont-loc":"Taman Abad, Johor Bahru","cont-hrs-label":"Waktu","cont-hrs":"Isnin – Ahad · 9:00 PG – 5:00 PTG","form-name-label":"Nama Anda","form-name-ph":"Muhammad Ali","form-email-label":"Emel","form-email-ph":"ali@syarikat.com","form-phone-label":"Telefon","form-msg-label":"Ceritakan projek anda","form-msg-ph":"Huraikan proses semasa...","form-submit":"Hantar Mesej →"},
+    zh:{ "nav-home":"首页","nav-why":"为什么选我","nav-services":"服务","nav-portfolio":"项目","nav-contact":"联系","hero-tag":"柔佛巴鲁 · 马来西亚","hero-h1":"实用的IT<br><em>自动化</em><br>解决方案","hero-sub":"我是 Syafiq — 为马来西亚中小企业构建实际工具。","hero-btn1":"探索服务 →","hero-btn2":"联系我","about-label":"关于","about-h2":"构建<em>真正有用</em>的工具","about-p1":"我是 <strong>Syafiq</strong>，驻柔佛巴鲁的IT解决方案构建者。","about-p2":"专注<strong>Excel系统、VBA宏、Python自动化</strong>。","about-p3":"我正在建立作品集，<strong>有竞争力的定价</strong>。","ind1":"零售与批发","ind1-desc":"库存跟踪，销售报告","ind2":"餐饮业","ind2-desc":"库存管理，成本跟踪","ind3":"建筑业","ind3-desc":"材料跟踪，采购工作流","ind4":"物流业","ind4-desc":"配送跟踪，基本调度","why-label":"为什么选择我","why-h2":"承诺、快速、<br><em>真诚投入</em>","why-img-cap":"Syafiq · BizFlow Systems · 柔佛巴鲁","why1":"一对一关注","why1-body":"您直接与我 Syafiq 对接。没有中间人。","why2":"实惠公平定价","why2-body":"价格合理，高质量工作。","why3":"渴望证明结果","why3-body":"您的成功就是我的作品集。","why4":"实用胜于华丽","why4-body":"构建最简单的解决方案。","serv-label":"服务","serv-h2":"我能为您<br>构建什么","serv-body":"实用、可运作的解决方案。","s1":"库存管理系统","s1-d":"跟踪进出库、低库存警报。","s2":"采购系统","s2-d":"管理采购订单、审批流程。","s3":"Excel宏自动化","s3-d":"将重复任务变成一键宏。","s4":"Python脚本自动化","s4-d":"数据处理、文件管理。","s5":"业务仪表板","s5-d":"简单的可视化仪表板。","s6":"工作流程改进","s6-d":"分析流程，构建更好的系统。","port-label":"项目作品","port-h2":"<em>已完成</em>的工作","port-cta":"开始项目 →","completed":"已完成","ongoing":"进行中","port1-cat":"Excel · VBA · 自动化","port1-title":"库存管理系统","port1-desc":"基于Excel的系统，具有进出库跟踪。","port2-cat":"Excel · VBA · Python","port2-title":"采购工作流系统","port2-desc":"采购订单跟踪器。","port3-cat":"Python · VBA · Excel","port3-title":"自动化脚本集合","port3-desc":"自动化脚本集合。","proc-label":"工作流程","proc-h2":"简单的<em>流程，</em><br>真实的结果","proc1":"了解","proc1-d":"讨论您的工作流程和需求。","proc2":"提案","proc2-d":"最简单的解决方案。","proc3":"构建","proc3-d":"定期更新地构建系统。","proc4":"交付与支持","proc4-d":"交付可用工具和文档。","cont-label":"联系我们","cont-h2":"讨论您的<em>项目</em>","cont-loc-label":"地址","cont-loc":"世纪花园，柔佛巴鲁","cont-hrs-label":"工作时间","cont-hrs":"周一至周日 · 上午9:00 – 下午5:00","form-name-label":"您的姓名","form-name-ph":"陈小明","form-email-label":"电子邮件","form-email-ph":"ming@company.com","form-phone-label":"电话","form-msg-label":"告诉我您的项目","form-msg-ph":"描述您当前的流程...","form-submit":"发送消息 →"}
+  };
+  function applyLang(lang){
+    const data = translations[lang] || translations.en;
+    document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if(data[key] !== undefined) el.innerHTML = data[key]; });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { const key = el.getAttribute('data-i18n-placeholder'); if(data[key] !== undefined) el.placeholder = data[key]; });
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    const waMap = { en:{name:"Chat with Syafiq",opt1:"General inquiry",opt2:"Inventory / Procurement",opt3:"Macro / Python"}, ms:{name:"Chat dengan Syafiq",opt1:"Pertanyaan umum",opt2:"Inventori / Perolehan",opt3:"Makro / Python"}, zh:{name:"与 Syafiq 聊天",opt1:"一般咨询",opt2:"库存 / 采购",opt3:"宏 / Python"} };
+    const w = waMap[lang] || waMap.en;
+    document.getElementById('waName').textContent = w.name;
+    document.getElementById('waOpt1').textContent = w.opt1;
+    document.getElementById('waOpt2').textContent = w.opt2;
+    document.getElementById('waOpt3').textContent = w.opt3;
+    localStorage.setItem('bflang', lang);
+  }
+  document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+  applyLang(localStorage.getItem('bflang') || 'en');
+})();
+</script>
+</body>
+</html>
